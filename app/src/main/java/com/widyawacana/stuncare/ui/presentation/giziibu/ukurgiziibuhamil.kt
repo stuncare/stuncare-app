@@ -158,8 +158,5 @@ fun Content() {
         ) {
             Text(text = "Simpan", fontSize = 16.sp, fontWeight =  FontWeight.Medium)
         }
-
-
-
     }
 }
