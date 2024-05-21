@@ -31,12 +31,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.widyawacana.stuncare.model.Resep
+import com.widyawacana.stuncare.ui.navigation.Screen
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResepItemVertical(modifier: Modifier = Modifier, resep: Resep, onItemClicked: (Int) -> Unit) {
     Card(
-//        onClick = { onItemClicked(listGames.id) },
+        onClick = { onItemClicked(resep.id) },
         modifier = modifier
             .fillMaxWidth()
             .width(312.dp)
@@ -66,13 +69,35 @@ fun ResepItemVertical(modifier: Modifier = Modifier, resep: Resep, onItemClicked
                             shape = RoundedCornerShape(6.dp)
                         )
                 ) {
-                    Text(
-                        text = "Info Sehat",
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
-                        color = Color.White,
-                        modifier = Modifier.padding(4.dp)
-                    )
+                    Box(
+                        contentAlignment = Alignment.Center,
+                        modifier = Modifier
+                            .background(
+                                color = Color(android.graphics.Color.parseColor("#756AB6")),
+                                shape = RoundedCornerShape(6.dp)
+                            )
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(start = 6.dp, end = 6.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.AccessTime,
+                                contentDescription = "Icon Rating",
+                                modifier = Modifier.size(14.dp),
+                                tint = Color.White
+                            )
+                            Spacer(modifier = Modifier.width(2.dp))
+                            Text(
+                                text = resep.duration.toString() + " Menit",
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.White,
+                                modifier = Modifier.padding(4.dp)
+                            )
+                        }
+
+                    }
                 }
 
             }
@@ -96,7 +121,9 @@ fun ResepItemHorizontal(
     onItemClicked: (Int) -> Unit
 ) {
     Card(
-        onClick = { },
+        onClick = {
+            onItemClicked(resep.id)
+        },
         modifier = modifier
             .width(144.dp)
             .height(170.dp),
@@ -147,7 +174,7 @@ fun ResepItemHeader(
 ) {
     Card(
         onClick = {
-//            onItemClicked(listGames.id)
+            onItemClicked(resep.id)
         },
         modifier = modifier
             .width(270.dp)

@@ -10,8 +10,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -27,27 +32,25 @@ import androidx.compose.ui.unit.dp
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.ui.presentation.StuncareApp
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import com.widyawacana.stuncare.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun giziawalpage() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = {
-                    Text(
-                        text = "Pertumbuhan Anak",
-                        color = Color.White,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF756AB6)
+fun giziawalpage(navController: NavController) {
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF756AB6)
+        ), title = { Text(text = "Data Pertumbuhan Anak", color = Color.White) }, navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBackIosNew,
+                    contentDescription = "Back Icon",
+                    tint = Color.White
                 )
-            )
-        }
+            }
+        })
+    }, modifier = Modifier
     ) { innerPadding ->
         Column(
             modifier = Modifier
@@ -66,7 +69,7 @@ fun giziawalpage() {
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(
-                onClick = { /* TODO: Implement button action */ },
+                onClick = { navController.navigate(Screen.PageGiziAnak.route) },
                 modifier = Modifier
                     .height(45.dp)
                     .width(312.dp)

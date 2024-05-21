@@ -5,6 +5,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,8 +22,13 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -39,11 +45,13 @@ import androidx.navigation.NavController
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.data.DummyData
 import com.widyawacana.stuncare.model.Resep
+import com.widyawacana.stuncare.model.artikel
 import com.widyawacana.stuncare.ui.component.ResepItemVertical
 import com.widyawacana.stuncare.ui.navigation.Screen
+import com.widyawacana.stuncare.ui.presentation.artikel.ArtikelItemVertical
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, reseps: List<Resep> = DummyData.listResep, navController: NavController) {
+fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyData.gambarartikel, navController: NavController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -102,6 +110,16 @@ fun HomeScreen(modifier: Modifier = Modifier, reseps: List<Resep> = DummyData.li
                 }
             }
         }
+        
+        item { 
+            Row(modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+                .padding(start = 24.dp, top = 20.dp)) {
+                SliderHeader()
+                Spacer(modifier = Modifier.width(12.dp))
+                SliderHeader()
+            }
+        }
 
         item {
             Row(
@@ -123,7 +141,9 @@ fun HomeScreen(modifier: Modifier = Modifier, reseps: List<Resep> = DummyData.li
                             .clip(
                                 CircleShape
                             )
-                            .clickable { }
+                            .clickable {
+                                navController.navigate(Screen.PerkembanganKehamilan.route)
+                            }
                     ) {
                         Image(painter = painterResource(id = R.drawable.ic_kembang), contentDescription = "Icon Kembang", modifier = Modifier.size(36.dp))
                     }
@@ -143,7 +163,9 @@ fun HomeScreen(modifier: Modifier = Modifier, reseps: List<Resep> = DummyData.li
                             .clip(
                                 CircleShape
                             )
-                            .clickable { }
+                            .clickable {
+                                navController.navigate(Screen.GiziAnakAwal.route)
+                            }
                     ) {
                         Image(painter = painterResource(id = R.drawable.ic_tumbuh), contentDescription = "Icon Tumbuh", modifier = Modifier.size(36.dp))
                     }
@@ -199,12 +221,12 @@ fun HomeScreen(modifier: Modifier = Modifier, reseps: List<Resep> = DummyData.li
                 .padding(start = 24.dp, top = 20.dp, end = 24.dp, bottom = 12.dp)
                 .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Text("Rekomendasi Artikel", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                Text("See all", fontSize = 12.sp, fontWeight = FontWeight.Normal)
+                Text("See all", fontSize = 12.sp, fontWeight = FontWeight.Normal, color = Color(0xFF756AB6))
             }
         }
 
-        items(reseps) {
-            ResepItemVertical(resep = it, modifier = modifier.padding(horizontal = 24.dp, vertical = 5.dp),
+        items(artikels) {
+            ArtikelItemVertical(artikel = it, modifier = modifier.padding(horizontal = 24.dp, vertical = 5.dp),
 //                contentPadding = PaddingValues(bottom = 10.dp),
 //                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
@@ -224,5 +246,29 @@ fun HomeScreen(modifier: Modifier = Modifier, reseps: List<Resep> = DummyData.li
 //        }
 
 
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SliderHeader(modifier: Modifier = Modifier) {
+    Card(
+        onClick = { },
+        modifier = modifier
+            .fillMaxWidth()
+            .width(300.dp)
+            .height(120.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.slider_1),
+            contentDescription = "Image Resep",
+            modifier = modifier
+                .height(120.dp)
+                .fillMaxWidth(),
+            contentScale = ContentScale.Crop
+        )
+        
     }
 }

@@ -17,16 +17,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.ui.navigation.NavigationItem
 import com.widyawacana.stuncare.ui.navigation.Screen
+import com.widyawacana.stuncare.ui.presentation.artikel.PageArtikelAwal
+import com.widyawacana.stuncare.ui.presentation.artikel.detailartikel
 import com.widyawacana.stuncare.ui.presentation.beranda.HomeScreen
+import com.widyawacana.stuncare.ui.presentation.gizianak.StatusGiziAnakScreen
+import com.widyawacana.stuncare.ui.presentation.gizianak.giziawalpage
+import com.widyawacana.stuncare.ui.presentation.gizianak.pagegzianak
+import com.widyawacana.stuncare.ui.presentation.kehamilan.PerkembanganKehamilanScreen
+import com.widyawacana.stuncare.ui.presentation.kehamilan.StatusPerkembanganKehamilanScreen
+import com.widyawacana.stuncare.ui.presentation.profile.ProfileScreen
+import com.widyawacana.stuncare.ui.presentation.resep.DetailResepScreen
 import com.widyawacana.stuncare.ui.presentation.resep.MenuSarapanScreen
 import com.widyawacana.stuncare.ui.presentation.resep.ResepScreen
+import com.widyawacana.stuncare.ui.presentation.webinar.WebinarScreen
 
 @Composable
 fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController = rememberNavController()) {
@@ -44,17 +56,17 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
                 HomeScreen(navController = navController)
             }
 
-//            composable(Screen.Webinar.route) {
-//                WebinarScreen()
-//            }
-//
-//            composable(Screen.Artikel.route) {
-//                ArtikelScreen()
-//            }
-//
-//            composable(Screen.Profil.route) {
-//                ProfilScreen()
-//            }
+            composable(Screen.Webinar.route) {
+                WebinarScreen(navController = navController)
+            }
+
+            composable(Screen.Artikel.route) {
+                PageArtikelAwal(navController = navController)
+            }
+
+            composable(Screen.Profil.route) {
+                ProfileScreen()
+            }
 
             composable(
                 Screen.Resep.route
@@ -67,6 +79,58 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
             ) { navBackStackEntry ->
                 MenuSarapanScreen(navController = navController)
             }
+
+            composable(
+                Screen.DetailResep.route + "/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { navBackStackEntry ->
+                DetailResepScreen(
+                    navController = navController,
+                    id = navBackStackEntry.arguments?.getInt("id")
+                )
+            }
+
+            composable(
+                Screen.PerkembanganKehamilan.route
+            ) { navBackStackEntry ->
+                PerkembanganKehamilanScreen(navController = navController)
+            }
+
+            composable(
+                Screen.StatusPerkembanganKehamilan.route
+            ) { navBackStackEntry ->
+                StatusPerkembanganKehamilanScreen(navController = navController)
+            }
+
+            composable(
+                Screen.GiziAnakAwal.route
+            ) { navBackStackEntry ->
+                giziawalpage(navController = navController)
+            }
+
+            composable(
+                Screen.PageGiziAnak.route
+            ) { navBackStackEntry ->
+                pagegzianak(navController = navController)
+            }
+
+            composable(
+                Screen.StatusGiziAnak.route
+            ) { navBackStackEntry ->
+                StatusGiziAnakScreen(navController = navController)
+            }
+
+            composable(
+                Screen.DetailArtikel.route + "/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { navBackStackEntry ->
+                detailartikel(
+                    navController = navController,
+                    id = navBackStackEntry.arguments?.getInt("id")
+                )
+            }
+
+
 
         }
 

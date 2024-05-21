@@ -60,13 +60,13 @@ fun ResepScreen(
 ) {
     Scaffold(topBar = {
         CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            titleContentColor = MaterialTheme.colorScheme.primary,
-        ), title = { Text(text = "Resep MPASI") }, navigationIcon = {
+            containerColor = Color(0xFF756AB6)
+        ), title = { Text(text = "Resep MPASI", color = Color.White) }, navigationIcon = {
             IconButton(onClick = { navController.popBackStack() }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBackIosNew,
-                    contentDescription = "Back Icon"
+                    contentDescription = "Back Icon",
+                    tint = Color.White
                 )
             }
         })
@@ -80,7 +80,7 @@ fun ResepScreen(
                 ) {
                     items(reseps) {
                         ResepItemHeader(resep = it) { id ->
-//                navController.navigate(Screen.Detail.route + "/$id")
+                            navController.navigate(Screen.DetailResep.route + "/$id")
                         }
                     }
                 }
@@ -93,7 +93,8 @@ fun ResepScreen(
             items(reseps) {
                 ResepItemVertical(
                     resep = it, modifier = modifier.padding(horizontal = 24.dp, vertical = 5.dp),
-                ) {
+                ) { id ->
+                    navController.navigate(Screen.DetailResep.route + "/$id")
                 }
             }
         }
@@ -116,7 +117,7 @@ fun MenuResep(modifier: Modifier = Modifier, navController: NavController) {
                 contentAlignment = Alignment.Center, modifier = Modifier
                     .size(72.dp)
                     .background(
-                        color = Color(android.graphics.Color.parseColor("#AC87C5")),
+                        color = Color(android.graphics.Color.parseColor("#E0AED0")),
                         shape = RoundedCornerShape(60.dp)
                     )
                     .clip(
@@ -138,13 +139,15 @@ fun MenuResep(modifier: Modifier = Modifier, navController: NavController) {
                 contentAlignment = Alignment.Center, modifier = Modifier
                     .size(72.dp)
                     .background(
-                        color = Color(android.graphics.Color.parseColor("#AC87C5")),
+                        color = Color(android.graphics.Color.parseColor("#E0AED0")),
                         shape = RoundedCornerShape(60.dp)
                     )
                     .clip(
                         CircleShape
                     )
-                    .clickable { }
+                    .clickable {
+                        navController.navigate(Screen.MenuSarapan.route)
+                    }
             ) {
                 Image(painter = painterResource(id = R.drawable.ic_menu_siang), contentDescription = "Icon Menu Siang", modifier = Modifier.size(36.dp))
             }
@@ -157,7 +160,7 @@ fun MenuResep(modifier: Modifier = Modifier, navController: NavController) {
                 contentAlignment = Alignment.Center, modifier = Modifier
                     .size(72.dp)
                     .background(
-                        color = Color(android.graphics.Color.parseColor("#AC87C5")),
+                        color = Color(android.graphics.Color.parseColor("#E0AED0")),
                         shape = RoundedCornerShape(60.dp)
                     )
                     .clip(
@@ -178,13 +181,15 @@ fun MenuResep(modifier: Modifier = Modifier, navController: NavController) {
                 contentAlignment = Alignment.Center, modifier = Modifier
                     .size(72.dp)
                     .background(
-                        color = Color(android.graphics.Color.parseColor("#AC87C5")),
+                        color = Color(android.graphics.Color.parseColor("#E0AED0")),
                         shape = RoundedCornerShape(60.dp)
                     )
                     .clip(
                         CircleShape
                     )
-                    .clickable { }
+                    .clickable {
+                        navController.navigate(Screen.MenuSarapan.route)
+                    }
             ) {
                 Image(painter = painterResource(id = R.drawable.ic_menu_snack), contentDescription = "Icon Menu Snack", modifier = Modifier.size(36.dp))
             }
