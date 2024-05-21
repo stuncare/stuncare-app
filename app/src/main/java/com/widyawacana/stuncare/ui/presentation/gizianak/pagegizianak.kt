@@ -1,5 +1,6 @@
 
 import android.annotation.SuppressLint
+
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,9 +8,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
@@ -35,44 +42,52 @@ import com.widyawacana.stuncare.R
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 
 @Composable
-fun pagegizianak2() {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = {
-                    Text(
-                        text = "Pertumbuhan Anak",
-                        color = Color.White,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold // Beratkan huruf judul
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF756AB6)
+fun pagegzianak(navController: NavController) {
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF756AB6)
+        ), title = { Text(text = "Pertumbuhan Anak", color = Color.White) }, navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBackIosNew,
+                    contentDescription = "Back Icon",
+                    tint = Color.White
                 )
-            )
-        }
+            }
+        })
+    }, modifier = Modifier
     ) {
         var selectedOption by remember { mutableStateOf("Option 1") } // Deklarasikan selectedOption di sini
-        Content(selectedOption)
+        Content(selectedOption, navController = navController)
     }
 }
 
 @Composable
-fun Content(selectedOption: String) { // Masukkan selectedOption ke dalam parameter fungsi Content
+fun Content(selectedOption: String, navController: NavController) {
     Column(
-        modifier = Modifier.padding(all = 15.dp),
+        modifier = Modifier
+            .padding(all = 20.dp)
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
 
     ) {
 
-
-        Spacer(modifier = Modifier.height(65.dp))
-        // Text Field "Nama Anak"
+        Spacer(modifier = Modifier.height(75.dp))
         Text(text = "Nama Anak", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+        Spacer(modifier = Modifier.height(6.dp))
+        OutlinedTextField(
+            value = "",
+            onValueChange = {},
+            modifier = Modifier
+                .fillMaxWidth() // Memanjangkan TextField
+                .height(56.dp)
+
+        )
+
+        Spacer(modifier = Modifier.height(15.dp))
+        Text(text = "Tanggal Lahir", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
             value = "",
@@ -189,7 +204,7 @@ fun Content(selectedOption: String) { // Masukkan selectedOption ke dalam parame
         )
         Spacer(modifier = Modifier.height(20.dp))
         Button(
-            onClick = { /* TODO: Implement button action */ },
+            onClick = { navController.navigate(Screen.StatusGiziAnak.route) },
             modifier = Modifier
                 .height(45.dp)
                 .fillMaxWidth()

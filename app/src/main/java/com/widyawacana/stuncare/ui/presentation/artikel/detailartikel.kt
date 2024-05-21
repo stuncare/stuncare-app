@@ -7,8 +7,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Card
+import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -21,12 +26,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.model.artikel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun detailartikel() {
+fun detailartikel(navController: NavController, id: Int?) {
     val artikel = artikel(
         id = 1,
         judul = "Ternyata Cegah Stunting Bisa \n" +
@@ -42,24 +48,19 @@ fun detailartikel() {
     )
 
 
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                modifier = Modifier.fillMaxWidth(),
-                title = {
-                    Text(
-                        text = "Detail Artikel",
-                        color = Color.White,
-                        modifier = Modifier.fillMaxWidth(),
-                        textAlign = TextAlign.Center,
-                        fontWeight = FontWeight.Bold // Beratkan huruf judul
-                    )
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF756AB6)
+    Scaffold(topBar = {
+        CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFF756AB6)
+        ), title = { Text(text = "Detail Artikel", color = Color.White) }, navigationIcon = {
+            IconButton(onClick = { navController.popBackStack() }) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBackIosNew,
+                    contentDescription = "Back Icon",
+                    tint = Color.White
                 )
-            )
-        }
+            }
+        })
+    }, modifier = Modifier
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
