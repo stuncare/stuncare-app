@@ -1,0 +1,115 @@
+package com.widyawacana.stuncare.ui.presentation.artikel
+
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Card
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.model.artikel
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun detailartikel() {
+    val artikel = artikel(
+        id = 1,
+        judul = "Ternyata Cegah Stunting Bisa \n" +
+                "Dimulai dari Kehamilan Bukan\n" +
+                "Kelahiran! Intip Penjelasannya",
+        photo = R.drawable.detailartikel1,
+        ket = "Pertumbuhan",
+        detailartikel = "Masalah stunting masih menjadi episode panjang masalah kesehatan balita di Indonesia. Stunting adalah kondisi gagal tumbuh pada anak balita akibat kekurangan gizi kronis terutama pada 1.000 Hari Pertama Kehidupan (HPK). Maka dari itu, pencegahan terutama pada 1000 HPK sangat diperlukan, yakni mulai dari bayi dalam kandungan hingga usia 23 bulan.\n" +
+                "\n" +
+                "Pemeriksaan kehamilan rutin atau antenatal care (ANC) merupakan salah satu usaha pencegahan stunting selama masa kehamilan. Selama hamil ibu disarankan untuk periksa minimal 6 kali. 1 kali pada trimester pertama, 2 kali pada trimester kedua, dan 3 kali pada trimester ketiga. Paling sedikit 2 kali pemeriksaan oleh dokter atau dokter spesialis kebidanan dan kandungan pada trimester pertama dan ketiga dengan memakai USG.\n" +
+                "\n" +
+                "Selain melakukan pemeriksaan rutin, selama kehamilan ibu perlu rutin minum tablet tambah darah (TTD) minimal 90 tablet seperti makanan pokok, protein hewani, kacang-kacangan, buah dan sayur, minum air 8-12 gelas/hari (2-3 liter)/hari, serta menambahkan 1 porsi makanan utama atau makanan selingan dari sebelumnya."
+    )
+
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                modifier = Modifier.fillMaxWidth(),
+                title = {
+                    Text(
+                        text = "Detail Artikel",
+                        color = Color.White,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                        fontWeight = FontWeight.Bold // Beratkan huruf judul
+                    )
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color(0xFF756AB6)
+                )
+            )
+        }
+    ) { innerPadding ->
+        Column(
+            modifier = Modifier.padding(innerPadding)
+        ) {
+            Image(
+                painter = painterResource(id = artikel.photo),
+                contentDescription = null, // Berikan deskripsi yang bermakna
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Text(
+                text = artikel.judul,
+                fontSize = 28.sp,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+
+                )
+
+            // Card
+            Card(
+                modifier = Modifier
+                    .padding(10.dp)
+                    .width(100.dp)
+                    .height(30.dp)
+
+            ) {
+                // Dummy data id
+                Text(
+                    text = artikel.ket,
+                    color = Color.White,
+                    fontSize = 14.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .fillMaxWidth()
+
+                )
+            }
+
+            Text(
+                text = artikel.detailartikel,
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium,
+                textAlign = TextAlign.Start,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+            )
+        }
+    }
+}
