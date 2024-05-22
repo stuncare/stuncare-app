@@ -2,6 +2,7 @@ package com.widyawacana.stuncare.ui.presentation.kehamilan
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -10,17 +11,21 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
@@ -59,6 +64,17 @@ fun StatusPerkembanganKehamilanScreen(navController: NavController) {
             .padding(contentPadding)
             .padding(start = 24.dp, end = 24.dp)
             .verticalScroll(rememberScrollState())) {
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            LazyRow(
+
+            ) {
+                item {
+                    CategoryJanin()
+                }
+            }
+
             Spacer(modifier = Modifier.height(20.dp))
 
             Card(modifier = Modifier
@@ -79,4 +95,30 @@ fun StatusPerkembanganKehamilanScreen(navController: NavController) {
             }
         }
     }
+}
+
+@Composable
+fun CategoryJanin() {
+    Row {
+        OutlinedButton(onClick = { /* Tombol 1 diklik */ }) {
+            Text(text = "Minggu 6")
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        Button(onClick = { /* Tombol 2 diklik */ }) {
+            Text(text = "Minggu 7")
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        OutlinedButton(onClick = { /* Tombol 3 diklik */ }) {
+            Text(text = "Minggu 8")
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        OutlinedButton(onClick = { /* Tombol 3 diklik */ }) {
+            Text(text = "Minggu 9")
+        }
+        Spacer(modifier = Modifier.width(10.dp))
+        OutlinedButton(onClick = { /* Tombol 3 diklik */ }) {
+            Text(text = "Minggu 10")
+        }
+    }
+
 }

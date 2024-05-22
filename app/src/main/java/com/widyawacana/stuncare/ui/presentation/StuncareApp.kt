@@ -1,5 +1,6 @@
 package com.widyawacana.stuncare.ui.presentation
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
@@ -14,6 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
@@ -23,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.stuncare.presentation.LoginScreen
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.ui.navigation.NavigationItem
 import com.widyawacana.stuncare.ui.navigation.Screen
@@ -31,27 +34,41 @@ import com.widyawacana.stuncare.ui.presentation.artikel.detailartikel
 import com.widyawacana.stuncare.ui.presentation.beranda.HomeScreen
 import com.widyawacana.stuncare.ui.presentation.gizianak.StatusGiziAnakScreen
 import com.widyawacana.stuncare.ui.presentation.gizianak.giziawalpage
-import com.widyawacana.stuncare.ui.presentation.gizianak.pagegzianak
 import com.widyawacana.stuncare.ui.presentation.kehamilan.PerkembanganKehamilanScreen
 import com.widyawacana.stuncare.ui.presentation.kehamilan.StatusPerkembanganKehamilanScreen
 import com.widyawacana.stuncare.ui.presentation.profile.ProfileScreen
+import com.widyawacana.stuncare.ui.presentation.register.PageRegister
 import com.widyawacana.stuncare.ui.presentation.resep.DetailResepScreen
 import com.widyawacana.stuncare.ui.presentation.resep.MenuSarapanScreen
 import com.widyawacana.stuncare.ui.presentation.resep.ResepScreen
+import com.widyawacana.stuncare.ui.presentation.splash.SplashScreen
 import com.widyawacana.stuncare.ui.presentation.webinar.WebinarScreen
+import com.widyawacana.stuncare.utils.shouldShowBottomBar
+import pagegzianak
 
 @Composable
 fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController = rememberNavController()) {
+    val navBackStack by navController.currentBackStackEntryAsState()
+    val currentRoute = navBackStack?.destination?.route
+    val context = LocalContext.current
+    
     Scaffold(
         bottomBar = {
-            BottomBar(navController = navController)
+            AnimatedVisibility(visible = currentRoute.shouldShowBottomBar()) {
+                BottomBar(navController = navController)
+            }
+
         }
     ) {contentPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Home.route,
+            startDestination = Screen.Splash.route,
             modifier = modifier.padding(contentPadding)
         ) {
+            composable(Screen.Splash.route) {
+                SplashScreen(navController = navController)
+            }
+
             composable(Screen.Home.route) {
                 HomeScreen(navController = navController)
             }
@@ -65,7 +82,7 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
             }
 
             composable(Screen.Profil.route) {
-                ProfileScreen()
+                ProfileScreen(navController = navController)
             }
 
             composable(
@@ -130,8 +147,17 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
                 )
             }
 
+            composable(
+                Screen.Login.route
+            ) { navBackStackEntry ->
+                LoginScreen(navController = navController)
+            }
 
-
+            composable(
+                Screen.Register.route
+            ) { navBackStackEntry ->
+                PageRegister(navController = navController)
+            }
         }
 
     }

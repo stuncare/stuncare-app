@@ -142,15 +142,14 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                                 CircleShape
                             )
                             .clickable {
-                                navController.navigate(Screen.PerkembanganKehamilan.route)
+                                navController.navigate(Screen.GiziAnakAwal.route)
                             }
                     ) {
-                        Image(painter = painterResource(id = R.drawable.ic_kembang), contentDescription = "Icon Kembang", modifier = Modifier.size(36.dp))
+                        Image(painter = painterResource(id = R.drawable.ic_tumbuh), contentDescription = "Icon Tumbuh", modifier = Modifier.size(36.dp))
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = stringResource(id = R.string.menu_kembang), fontSize = 12.sp)
+                    Text(text = stringResource(id = R.string.menu_tumbuh), fontSize = 12.sp)
                 }
-
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Box(
@@ -164,13 +163,13 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                                 CircleShape
                             )
                             .clickable {
-                                navController.navigate(Screen.GiziAnakAwal.route)
+                                navController.navigate(Screen.PerkembanganKehamilan.route)
                             }
                     ) {
-                        Image(painter = painterResource(id = R.drawable.ic_tumbuh), contentDescription = "Icon Tumbuh", modifier = Modifier.size(36.dp))
+                        Image(painter = painterResource(id = R.drawable.ic_kembang), contentDescription = "Icon Kembang", modifier = Modifier.size(36.dp))
                     }
                     Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = stringResource(id = R.string.menu_tumbuh), fontSize = 12.sp)
+                    Text(text = stringResource(id = R.string.menu_kembang), fontSize = 12.sp)
                 }
 
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
