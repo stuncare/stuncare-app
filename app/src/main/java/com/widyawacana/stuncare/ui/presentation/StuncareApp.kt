@@ -41,7 +41,6 @@ import com.widyawacana.stuncare.ui.presentation.register.PageRegister
 import com.widyawacana.stuncare.ui.presentation.resep.DetailResepScreen
 import com.widyawacana.stuncare.ui.presentation.resep.MenuSarapanScreen
 import com.widyawacana.stuncare.ui.presentation.resep.ResepScreen
-import com.widyawacana.stuncare.ui.presentation.splash.SplashScreen
 import com.widyawacana.stuncare.ui.presentation.webinar.WebinarScreen
 import com.widyawacana.stuncare.utils.shouldShowBottomBar
 import pagegzianak
@@ -62,13 +61,9 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
     ) {contentPadding ->
         NavHost(
             navController = navController,
-            startDestination = Screen.Splash.route,
+            startDestination = Screen.Login.route,
             modifier = modifier.padding(contentPadding)
         ) {
-            composable(Screen.Splash.route) {
-                SplashScreen(navController = navController)
-            }
-
             composable(Screen.Home.route) {
                 HomeScreen(navController = navController)
             }

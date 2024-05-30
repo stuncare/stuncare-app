@@ -35,7 +35,6 @@ import androidx.navigation.NavController
 import com.widyawacana.stuncare.model.Resep
 import com.widyawacana.stuncare.ui.navigation.Screen
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ResepItemVertical(modifier: Modifier = Modifier, resep: Resep, onItemClicked: (Int) -> Unit) {
     Card(
@@ -113,7 +112,6 @@ fun ResepItemVertical(modifier: Modifier = Modifier, resep: Resep, onItemClicked
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ResepItemHorizontal(
     modifier: Modifier = Modifier,
@@ -165,7 +163,6 @@ fun ResepItemHorizontal(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ResepItemHeader(
     modifier: Modifier = Modifier,
