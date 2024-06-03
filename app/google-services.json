@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "38940936679",
+    "project_id": "stuncare-app-cfc4c",
+    "storage_bucket": "stuncare-app-cfc4c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:38940936679:android:8ed565e8c7ed50d1409542",
+        "android_client_info": {
+          "package_name": "com.widyawacana.stuncare"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCx50RIeMhbPINsKfH4csRQ670W1izESDk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

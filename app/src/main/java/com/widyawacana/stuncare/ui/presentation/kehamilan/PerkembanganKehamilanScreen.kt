@@ -1,5 +1,7 @@
 package com.widyawacana.stuncare.ui.presentation.kehamilan
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,15 +25,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.widyawacana.stuncare.ui.navigation.Screen
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PerkembanganKehamilanScreen(navController: NavController) {
@@ -52,6 +63,12 @@ fun PerkembanganKehamilanScreen(navController: NavController) {
                 })
         }, modifier = Modifier
     ) { contentPadding ->
+
+        var nameBaby by remember { mutableStateOf("") }
+        var lastMenstruationDate by remember { mutableStateOf(TextFieldValue("")) }
+        var pregnancyAge by remember { mutableStateOf("") }
+        var estimatedDeliveryDate by remember { mutableStateOf("") }
+
         Column(
             modifier = Modifier
                 .padding(all = 20.dp)
@@ -67,12 +84,14 @@ fun PerkembanganKehamilanScreen(navController: NavController) {
             Text(text = "Nama Calon Anak", fontSize = 14.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = nameBaby,
+                onValueChange = { changeNameBaby -> nameBaby = changeNameBaby },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
-
+                    .height(56.dp),
+                placeholder = {
+                    Text("cont: Widya")
+                }
             )
 
             //  Hari Pertama Haid Terakhir (HPHT)
@@ -80,11 +99,29 @@ fun PerkembanganKehamilanScreen(navController: NavController) {
             Text(text = "Hari Pertama Haid Terakhir (HPHT)", fontSize = 14.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
-                value = "",
-                onValueChange = {},
+                value = lastMenstruationDate,
+                onValueChange = {
+                    lastMenstruationDate = it
+                    val dateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy")
+                    try {
+                        val lastMenstruationLocalDate = LocalDate.parse(it.text, dateFormatter)
+                        val currentDate = LocalDate.now()
+                        val weeksPregnant = ChronoUnit.WEEKS.between(lastMenstruationLocalDate, currentDate).toString()
+                        pregnancyAge = weeksPregnant + " Minggu"
+
+                        val estimatedDeliveryLocalDate = lastMenstruationLocalDate.plusWeeks(40)
+                        estimatedDeliveryDate = estimatedDeliveryLocalDate.format(dateFormatter)
+                    } catch (e: Exception) {
+                        pregnancyAge = ""
+                        estimatedDeliveryDate = ""
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
+                    .height(56.dp),
+                placeholder = {
+                    Text("cont: 10-04-2024")
+                }
 
             )
 
@@ -95,7 +132,7 @@ fun PerkembanganKehamilanScreen(navController: NavController) {
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
                 enabled = false,
-                value = "",
+                value = estimatedDeliveryDate,
                 onValueChange = {},
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,7 +157,7 @@ fun PerkembanganKehamilanScreen(navController: NavController) {
             Text(text = "Usia Kehamilan (Minggu)", fontSize = 14.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.height(6.dp))
             OutlinedTextField(
-                value = "",
+                value = pregnancyAge,
                 enabled = false,
                 onValueChange = {},
                 modifier = Modifier

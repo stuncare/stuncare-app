@@ -1,5 +1,7 @@
 package com.widyawacana.stuncare.ui.presentation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -26,26 +28,34 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.stuncare.presentation.LoginScreen
+import com.widyawacana.stuncare.MainActivity
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.ui.navigation.NavigationItem
 import com.widyawacana.stuncare.ui.navigation.Screen
 import com.widyawacana.stuncare.ui.presentation.artikel.PageArtikelAwal
 import com.widyawacana.stuncare.ui.presentation.artikel.detailartikel
 import com.widyawacana.stuncare.ui.presentation.beranda.HomeScreen
+import com.widyawacana.stuncare.ui.presentation.chatbot.ChatbotScreen
 import com.widyawacana.stuncare.ui.presentation.gizianak.StatusGiziAnakScreen
 import com.widyawacana.stuncare.ui.presentation.gizianak.giziawalpage
 import com.widyawacana.stuncare.ui.presentation.kehamilan.PerkembanganKehamilanScreen
 import com.widyawacana.stuncare.ui.presentation.kehamilan.StatusPerkembanganKehamilanScreen
+import com.widyawacana.stuncare.ui.presentation.profile.AboutScreen
+import com.widyawacana.stuncare.ui.presentation.profile.ContactUsScreen
+import com.widyawacana.stuncare.ui.presentation.profile.EditProfileScreen
 import com.widyawacana.stuncare.ui.presentation.profile.ProfileScreen
+import com.widyawacana.stuncare.ui.presentation.profile.TermConditionScreen
 import com.widyawacana.stuncare.ui.presentation.register.PageRegister
 import com.widyawacana.stuncare.ui.presentation.resep.DetailResepScreen
 import com.widyawacana.stuncare.ui.presentation.resep.MenuSarapanScreen
 import com.widyawacana.stuncare.ui.presentation.resep.ResepScreen
 import com.widyawacana.stuncare.ui.presentation.splash.SplashScreen
+import com.widyawacana.stuncare.ui.presentation.webinar.DetailWebinarScreen
 import com.widyawacana.stuncare.ui.presentation.webinar.WebinarScreen
 import com.widyawacana.stuncare.utils.shouldShowBottomBar
 import pagegzianak
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController = rememberNavController()) {
     val navBackStack by navController.currentBackStackEntryAsState()
@@ -86,6 +96,30 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
             }
 
             composable(
+                Screen.EditProfil.route
+            ) { navBackStackEntry ->
+                EditProfileScreen(navController = navController)
+            }
+
+            composable(
+                Screen.ContactUs.route
+            ) { navBackStackEntry ->
+                ContactUsScreen(navController = navController)
+            }
+
+            composable(
+                Screen.TermCondition.route
+            ) { navBackStackEntry ->
+                TermConditionScreen(navController = navController)
+            }
+
+            composable(
+                Screen.About.route
+            ) { navBackStackEntry ->
+                AboutScreen(navController = navController)
+            }
+
+            composable(
                 Screen.Resep.route
             ) { navBackStackEntry ->
                 ResepScreen(navController = navController)
@@ -102,6 +136,16 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
                 arguments = listOf(navArgument("id") { type = NavType.IntType })
             ) { navBackStackEntry ->
                 DetailResepScreen(
+                    navController = navController,
+                    id = navBackStackEntry.arguments?.getInt("id")
+                )
+            }
+
+            composable(
+                Screen.DetailWebinar.route + "/{id}",
+                arguments = listOf(navArgument("id") { type = NavType.IntType })
+            ) { navBackStackEntry ->
+                DetailWebinarScreen(
                     navController = navController,
                     id = navBackStackEntry.arguments?.getInt("id")
                 )
@@ -157,6 +201,12 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
                 Screen.Register.route
             ) { navBackStackEntry ->
                 PageRegister(navController = navController)
+            }
+
+            composable(
+                Screen.Chatbot.route
+            ) { navBackStackEntry ->
+                ChatbotScreen()
             }
         }
 

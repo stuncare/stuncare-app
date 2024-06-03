@@ -1,5 +1,7 @@
 package com.widyawacana.stuncare.ui.presentation.profile
 
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -32,24 +34,75 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.ui.navigation.Screen
+import com.widyawacana.stuncare.utils.Constant.CLIENT
 
 @Composable
-fun ProfileScreen(navController: NavController) {
+fun ProfileScreen(navController: NavController, context: Context = LocalContext.current) {
+    var isSignedOut by remember { mutableStateOf(false) }
+
+    if (isSignedOut) {
+        LaunchedEffect(Unit) {
+            navController.navigate(Screen.Login.route) {
+                popUpTo(Screen.Home.route) {
+                    inclusive = true
+                }
+            }
+        }
+    } else {
+        ProfileContent(navController = navController, onLogoutClick = {
+            val googleLogin =
+                GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestEmail()
+                    .requestIdToken(CLIENT)
+                    .build()
+
+            @Suppress("DEPRECATION")
+            val googleClient = GoogleSignIn.getClient(context, googleLogin)
+            googleClient.signOut().addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    FirebaseAuth.getInstance().signOut()
+                    isSignedOut = true
+                } else {
+                    Toast.makeText(
+                        context,
+                        "Logout Gagal",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        })
+
+    }
+}
+
+
+@Composable
+fun ProfileContent(navController: NavController, onLogoutClick: () -> Unit) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -95,16 +148,19 @@ fun ProfileScreen(navController: NavController) {
             }
         }
         item {
-            ProfileItemCard(navController = navController)
+            ProfileItemCard(navController = navController, onLogoutClick = onLogoutClick)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), navController: NavController) {
+fun ProfileItemCard(
+    modifier: Modifier = Modifier.padding(horizontal = 24.dp),
+    navController: NavController,
+    onLogoutClick: () -> Unit
+) {
     Card(
-        onClick = { },
         modifier = modifier
             .fillMaxWidth(),
         elevation = CardDefaults.cardElevation(10.dp),
@@ -116,7 +172,9 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), n
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        onLogoutClick
+                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -155,7 +213,9 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), n
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        navController.navigate(Screen.ContactUs.route)
+                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -194,7 +254,9 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), n
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        navController.navigate(Screen.TermCondition.route)
+                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -233,7 +295,9 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), n
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        navController.navigate(Screen.About.route)
+                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -272,9 +336,9 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), n
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable {
-                        navController.navigate(Screen.Login.route)
-                    }
+//                    .clickable {
+//                        navController.navigate(Screen.Login.route)
+//                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -297,12 +361,14 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), n
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowForwardIos,
-                        contentDescription = "Icon Arrow",
-                        modifier = Modifier.size(18.dp),
-                        tint = Color.DarkGray
-                    )
+                    IconButton(onClick = onLogoutClick) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowForwardIos,
+                            contentDescription = "Icon Arrow",
+                            modifier = Modifier.size(18.dp),
+                            tint = Color.DarkGray
+                        )
+                    }
                 }
             }
             Spacer(modifier = modifier.height(10.dp))

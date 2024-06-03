@@ -7,6 +7,10 @@ sealed class Screen (val route: String){
     data object Artikel: Screen("artikel")
     data object DetailArtikel: Screen("detail_artikel")
     data object Profil: Screen("profil")
+    data object EditProfil: Screen("edit_profil")
+    data object ContactUs: Screen("contact_us")
+    data object TermCondition: Screen("term_condition")
+    data object About: Screen("about")
     data object PerkembanganKehamilan: Screen("perkembangan_kehamilan")
     data object StatusPerkembanganKehamilan: Screen("status_perkembangan_kehamilan")
     data object Resep: Screen("resep")
@@ -21,4 +25,6 @@ sealed class Screen (val route: String){
     data object Login: Screen("login")
     data object Register: Screen("register")
     data object Splash: Screen("splash")
+    data object Chatbot: Screen("chatbot")
+
 }

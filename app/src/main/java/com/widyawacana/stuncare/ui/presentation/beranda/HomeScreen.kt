@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.google.firebase.auth.FirebaseAuth
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.data.DummyData
 import com.widyawacana.stuncare.model.Resep
@@ -52,6 +53,8 @@ import com.widyawacana.stuncare.ui.presentation.artikel.ArtikelItemVertical
 
 @Composable
 fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyData.gambarartikel, navController: NavController) {
+    val currentUser = FirebaseAuth.getInstance().currentUser?.email?.substringBefore("@") ?: "N/A"
+
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -101,7 +104,7 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                             color = Color.White
                         )
                         Text(
-                            text = "Julia Situmorang",
+                            text = currentUser,
                             fontSize = 18.sp,
                             fontWeight = FontWeight.Bold,
                             color = Color.White
@@ -204,7 +207,9 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                             .clip(
                                 CircleShape
                             )
-                            .clickable { }
+                            .clickable {
+                                navController.navigate(Screen.Chatbot.route)
+                            }
                     ) {
                         Image(painter = painterResource(id = R.drawable.ic_kalender), contentDescription = "Icon Kalender", modifier = Modifier.size(36.dp))
                     }
