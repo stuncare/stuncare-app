@@ -68,11 +68,14 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // navigation
-    implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(libs.androidx.navigation.compose)
 
     // extended icons
-    implementation("androidx.compose.material:material-icons-extended:1.5.3")
+    implementation(libs.androidx.material.icons.extended)
 
     // coil image
-    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation(libs.coil.compose)
+
+    //splash screen
+    implementation(libs.androidx.core.splashscreen)
 }

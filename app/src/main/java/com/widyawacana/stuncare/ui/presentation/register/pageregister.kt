@@ -6,17 +6,22 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -32,27 +37,29 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import com.widyawacana.stuncare.ui.navigation.Screen
 
 
 @Composable
-fun PageRegister() {
+fun PageRegister(navController: NavController) {
     Column(
         modifier = Modifier
-            .width(360.dp)
-            .height(800.dp)
+            .fillMaxSize()
             .background(color = Color(0xFFFFFFFF))
-            .padding(16.dp),
-        verticalArrangement = Arrangement.Top,
+            .padding(horizontal = 24.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(35.dp))
         Image(
-            painter = painterResource(id = R.drawable.logoregist),
+            painter = painterResource(id = R.drawable.img_daftar_akun),
             contentDescription = "Logo",
             contentScale = ContentScale.Crop,
             modifier = Modifier
-                .width(186.dp)
-                .height(207.dp)
+                .width(204.dp)
+                .height(187.dp)
         )
         var fullName by remember { mutableStateOf("") }
         var email by remember { mutableStateOf("") }
@@ -98,30 +105,29 @@ fun PageRegister() {
                 .height(56.dp)
         )
 
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = "Tanggal Lahir",
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 8.dp)
-        )
-        Spacer(modifier = Modifier.height(6.dp))
-        OutlinedTextField(
-            value = birthDate,
-            onValueChange = { birthDate = it },
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(56.dp),
-            trailingIcon = {
-                Icon(
-                    painter = painterResource(id = R.drawable.icontanggal),
-                    contentDescription = "Timbangan Bayi",
-                    tint = Color.Unspecified
-                )
-            }
-        )
+//        Spacer(modifier = Modifier.height(12.dp))
+//        Text(
+//            text = "Tanggal Lahir",
+//            fontSize = 14.sp,
+//            fontWeight = FontWeight.Medium,
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .padding(start = 8.dp)
+//        )
+//        Spacer(modifier = Modifier.height(6.dp))
+//        OutlinedTextField(
+//            value = birthDate,
+//            onValueChange = { birthDate = it },
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .height(56.dp),
+//            trailingIcon = {
+////                Image(
+////                    painter = painterResource(id = R.drawable.icontanggal),
+////                    contentDescription = "Timbangan Bayi"
+////                )
+//            }
+//        )
 
         Spacer(modifier = Modifier.height(12.dp))
         Text(
@@ -149,14 +155,14 @@ fun PageRegister() {
                 IconButton(onClick = {
                     passwordVisible = !passwordVisible
                 }) {
-                    Icon(painter = image, contentDescription = null)
+                    Image(painter = image, contentDescription = null)
                 }
             }
         )
 
         Spacer(modifier = Modifier.height(12.dp))
         Text(
-            text = "Ulangi Password",
+            text = "Konfirmasi Password",
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             modifier = Modifier
@@ -180,13 +186,15 @@ fun PageRegister() {
                 IconButton(onClick = {
                     confirmPasswordVisible = !confirmPasswordVisible
                 }) {
-                    Icon(painter = image, contentDescription = null)
+                    Image(painter = image, contentDescription = null)
                 }
             }
         )
         Spacer(modifier = Modifier.height(24.dp))
         Button(
-            onClick = { /* TODO: Add your action here */ },
+            onClick = {
+                navController.navigate(Screen.Login.route)
+            },
             colors = ButtonDefaults.buttonColors(
                 containerColor = Color(0xFF756AB6)
             ),
@@ -195,9 +203,31 @@ fun PageRegister() {
                 .height(56.dp)
         ) {
             Text(text = "Daftar",
-                fontSize = 20.sp,
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = Color.White)
+        }
+        Spacer(modifier = Modifier.height(6.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
+        )
+        {
+            Text(text = "Sudah punya Akun?", fontSize = 16.sp,
+                fontWeight = FontWeight.Normal)
+            TextButton(
+                onClick = {
+                    navController.navigate(Screen.Login.route)
+                } // Arahkan Mau Kemana textbutton Lupa Password ini
+            ) {
+                Text(
+                    text = "Login",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF756AB6)
+                )
+            }
         }
     }
 }

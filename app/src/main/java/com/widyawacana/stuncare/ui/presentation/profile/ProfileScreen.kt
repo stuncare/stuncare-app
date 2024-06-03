@@ -44,10 +44,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.ui.navigation.Screen
 
 @Composable
-fun ProfileScreen() {
+fun ProfileScreen(navController: NavController) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -93,14 +95,14 @@ fun ProfileScreen() {
             }
         }
         item {
-            ProfileItemCard()
+            ProfileItemCard(navController = navController)
         }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp)) {
+fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp), navController: NavController) {
     Card(
         onClick = { },
         modifier = modifier
@@ -270,7 +272,9 @@ fun ProfileItemCard(modifier: Modifier = Modifier.padding(horizontal = 24.dp)) {
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-                    .clickable { }
+                    .clickable {
+                        navController.navigate(Screen.Login.route)
+                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween

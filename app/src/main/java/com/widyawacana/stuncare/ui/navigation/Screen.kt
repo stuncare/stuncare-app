@@ -18,4 +18,6 @@ sealed class Screen (val route: String){
     data object GiziAnakAwal: Screen("gizi_anak_awal")
     data object PageGiziAnak: Screen("page_gizi_anak")
     data object StatusGiziAnak: Screen("status_gizi_anak")
+    data object Login: Screen("login")
+    data object Register: Screen("register")
 }
