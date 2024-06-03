@@ -98,4 +98,7 @@ dependencies {
 
     // material 3
     implementation("androidx.compose.material3:material3:1.3.0-beta01")
+
+    //splash screen
+    implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
 }

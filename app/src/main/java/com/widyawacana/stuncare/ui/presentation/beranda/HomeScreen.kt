@@ -211,7 +211,7 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                                 navController.navigate(Screen.Chatbot.route)
                             }
                     ) {
-                        Image(painter = painterResource(id = R.drawable.ic_kalender), contentDescription = "Icon Kalender", modifier = Modifier.size(36.dp))
+                        Image(painter = painterResource(id = R.drawable.ic_chatbot), contentDescription = "Icon Kalender", modifier = Modifier.size(36.dp))
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = stringResource(id = R.string.menu_kalender), fontSize = 12.sp)
