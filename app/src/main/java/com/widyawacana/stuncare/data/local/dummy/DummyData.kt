@@ -1,4 +1,4 @@
-package com.widyawacana.stuncare.data
+package com.widyawacana.stuncare.data.local.dummy
 
 import com.widyawacana.stuncare.R
 import com.widyawacana.stuncare.model.Resep

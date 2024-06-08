@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -59,15 +60,25 @@ fun pagegzianak(navController: NavController) {
     }, modifier = Modifier
     ) {
         var selectedOption by remember { mutableStateOf("Option 1") } // Deklarasikan selectedOption di sini
+
         Content(selectedOption, navController = navController)
     }
 }
 
 @Composable
 fun Content(selectedOption: String, navController: NavController) {
+    var namaBayi by remember { mutableStateOf("") }
+    var tglLahir by remember { mutableStateOf("") }
+    var tglPengisian by remember { mutableStateOf("") }
+    var jenkel by remember { mutableStateOf("") }
+    var beratBadan by remember { mutableStateOf("") }
+    var tinggBadan by remember { mutableStateOf("") }
+    var lingkarKepala by remember { mutableStateOf("") }
+    var selectedOption by remember { mutableStateOf(true) }
+
     Column(
         modifier = Modifier
-            .padding(all = 20.dp)
+            .padding(horizontal = 24.dp).padding(top = 30.dp)
             .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.Start
@@ -78,12 +89,19 @@ fun Content(selectedOption: String, navController: NavController) {
         Text(text = "Nama Anak", fontSize = 14.sp, fontWeight = FontWeight.Medium)
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = namaBayi,
+            onValueChange = { it -> namaBayi = it },
             modifier = Modifier
                 .fillMaxWidth() // Memanjangkan TextField
-                .height(56.dp)
-
+                .height(56.dp),
+            trailingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.iconheadbayi),
+                    contentDescription = "",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(14.dp)
+                )
+            }
         )
 
         Spacer(modifier = Modifier.height(15.dp))
@@ -91,62 +109,62 @@ fun Content(selectedOption: String, navController: NavController) {
 
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = tglLahir,
+            onValueChange = { it -> tglLahir = it },
             modifier = Modifier
                 .fillMaxWidth() // Memanjangkan TextField
                 .height(56.dp),
             // Icon Di dalam Outline
             trailingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.iconheadbayi),
+                    painter = painterResource(id = R.drawable.icontanggal),
                     contentDescription = "",
-                    tint = Color.Unspecified
+                    tint = Color.Gray,
+                    modifier = Modifier.size(14.dp)
                 )
             }
-        )
-        // Spacer
-        Spacer(modifier = Modifier.height(10.dp))
-
-        // Text Field  "Tanggal Lahir"
-        Text(text = "Tanggal Lahir", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(6.dp))
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth() // Memanjangkan TextField
-                .height(56.dp)
         )
 
         // Spacer
         Spacer(modifier = Modifier.height(10.dp))
 
         // Text Field for "Tanggal Pengisian"
-        Text(text = "Tanggal Pengisian", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-        Spacer(modifier = Modifier.height(6.dp))
-        OutlinedTextField(
-            value = "",
-            onValueChange = {},
-            modifier = Modifier
-                .fillMaxWidth() // Memanjangkan TextField
-                .height(56.dp)
-        )
+//        Text(text = "Tanggal Pengisian", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+//        Spacer(modifier = Modifier.height(6.dp))
+//        OutlinedTextField(
+//            value = tglPengisian,
+//            onValueChange = { it -> tglPengisian = it },
+//            modifier = Modifier
+//                .fillMaxWidth() // Memanjangkan TextField
+//                .height(56.dp),
+//            trailingIcon = {
+//                Icon(
+//                    painter = painterResource(id = R.drawable.icontanggal),
+//                    contentDescription = "",
+//                    tint = Color.Gray,
+//                    modifier = Modifier.size(14.dp)
+//                )
+//            }
+//        )
+
         // Spacer
         Spacer(modifier = Modifier.height(10.dp))
         Text(text = "Jenis Kelamin", fontSize = 14.sp, fontWeight = FontWeight.Medium)
-        Row {
+        Row(horizontalArrangement = Arrangement.Start, verticalAlignment = Alignment.CenterVertically) {
             // Radio Buttons for options
             Spacer(modifier = Modifier.height(6.dp))
             RadioButton(
-                selected = selectedOption == "Laki -Laki",
-                onClick = {  }
+                selected = selectedOption,
+                onClick = { check(true) },
+                enabled = true
+
             )
             Text(text = "Laki-Laki", fontSize = 16.sp, fontWeight =  FontWeight.Medium)
+            Spacer(modifier = Modifier.height(6.dp))
 
             RadioButton(
-                selected = selectedOption == "Perempuan",
-                onClick = { }
+                selected = selectedOption == false,
+                onClick = { selectedOption == false},
             )
 
             Text(text = "Perempuan", fontSize = 16.sp, fontWeight =  FontWeight.Medium)
@@ -155,16 +173,17 @@ fun Content(selectedOption: String, navController: NavController) {
         Text(text = "Berat Badan (Kg)", fontSize = 14.sp, fontWeight =  FontWeight.Medium)
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = beratBadan,
+            onValueChange = { it -> beratBadan = it },
             modifier = Modifier
                 .fillMaxWidth() // Memanjangkan TextField
                 .height(56.dp),
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.icontimbangan),
-                    contentDescription = "Timbangan Bayi",
-                    tint = Color.Unspecified
+                    contentDescription = "",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(14.dp)
                 )
             }
         )
@@ -172,34 +191,36 @@ fun Content(selectedOption: String, navController: NavController) {
         Text(text = "Tinggi Badan (Cm)", fontSize = 14.sp, fontWeight =  FontWeight.Medium)
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = tinggBadan,
+            onValueChange = { it -> tinggBadan = it },
             modifier = Modifier
                 .fillMaxWidth() // Memanjangkan TextField
                 .height(56.dp),
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.iconpenggaris),
-                    contentDescription = "Timbangan Bayi",
-                    tint = Color.Unspecified
+                    contentDescription = "",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(14.dp)
                 )
             }
         )
 
         Spacer(modifier = Modifier.height(10.dp))
-        Text(text = "Lingkar Kepala(Cm)", fontSize = 14.sp, fontWeight =  FontWeight.Medium)
+        Text(text = "Lingkar Kepala (Cm)", fontSize = 14.sp, fontWeight =  FontWeight.Medium)
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedTextField(
-            value = "",
-            onValueChange = {},
+            value = lingkarKepala,
+            onValueChange = { it -> lingkarKepala = it },
             modifier = Modifier
                 .fillMaxWidth() // Memanjangkan TextField
                 .height(56.dp),
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.iconheadbayi),
-                    contentDescription = "Timbangan Bayi",
-                    tint = Color.Unspecified
+                    contentDescription = "",
+                    tint = Color.Gray,
+                    modifier = Modifier.size(14.dp)
                 )
             }
         )
@@ -207,13 +228,13 @@ fun Content(selectedOption: String, navController: NavController) {
         Button(
             onClick = { navController.navigate(Screen.StatusGiziAnak.route) },
             modifier = Modifier
-                .height(45.dp)
+                .height(56.dp)
                 .fillMaxWidth()
             // Menggunakan Shapes.small untuk membuat sudut tombol melengkung
         ) {
             Text(text = "Simpan", fontSize = 16.sp, fontWeight =  FontWeight.Medium)
         }
-
+        Spacer(modifier = Modifier.height(20.dp))
 
 
     }

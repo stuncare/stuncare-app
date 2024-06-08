@@ -36,6 +36,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import com.widyawacana.stuncare.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -46,7 +47,7 @@ fun StatusGiziAnakScreen(modifier: Modifier = Modifier,
         CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color(0xFF756AB6)
         ), title = { Text(text = "Status Pertumbuhan Anak", color = Color.White) }, navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
+            IconButton(onClick = { navController.navigate(Screen.Home.route) }) {
                 Icon(
                     imageVector = Icons.Default.ArrowBackIosNew,
                     contentDescription = "Back Icon",

@@ -1,6 +1,5 @@
 package com.widyawacana.stuncare.ui.presentation.webinar
 
-import android.widget.Space
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
@@ -43,8 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.widyawacana.stuncare.data.DummyData
-import com.widyawacana.stuncare.model.Resep
+import com.widyawacana.stuncare.data.local.dummy.DummyData
 import com.widyawacana.stuncare.model.Webinar
 import com.widyawacana.stuncare.ui.navigation.Screen
 

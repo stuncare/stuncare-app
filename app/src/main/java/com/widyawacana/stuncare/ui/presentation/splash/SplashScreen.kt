@@ -54,7 +54,7 @@ fun SplashScreen(navController: NavController) {
                     }
                 }
             } else {
-                navController.navigate(Screen.Login.route) {
+                navController.navigate(Screen.Onboarding.route) {
                     popUpTo(Screen.Splash.route) {
                         inclusive = true
                     }
