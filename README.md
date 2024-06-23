@@ -1,1 +1,1 @@
-"# stuncare-app" 
+Stuncare adalah aplikasi Android yang inovatif, dirancang khusus untuk menangani dan mencegah stunting pada anak-anak. Aplikasi ini dilengkapi dengan berbagai fitur penting yang mendukung kesehatan dan perkembangan anak, termasuk anjuran menu makanan yang sehat, prediksi pertumbuhan yang akurat, artikel informatif tentang kesehatan anak, serta kalender pengingat imunisasi. Dengan Stuncare, orang tua dapat lebih mudah memantau dan memastikan tumbuh kembang optimal anak mereka, serta mendapatkan informasi dan panduan yang dibutuhkan untuk mencegah stunting.
