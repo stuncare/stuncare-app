@@ -61,9 +61,11 @@ fun AboutScreen(modifier: Modifier = Modifier, navController: NavController) {
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Text(text = "Stuncare merupakan aplikasi dan website yang memandu dalam perkembangan anak usia balita untuk menekankanghyty pertumbuhan stunting di indonesia, serta menjaga ibu-ibu dan anak dari pertumbuhan terhambat ini untuk generasi emas Indonesia 2024." +
+                Text(text = "Stuncare adalah sebuah aplikasi dan website yang dirancang untuk membantu memantau dan mendukung perkembangan anak usia balita di Indonesia. Aplikasi ini bertujuan untuk menekan angka stunting dan memastikan bahwa ibu-ibu serta anak-anak mendapatkan perawatan dan perhatian yang diperlukan untuk pertumbuhan optimal. Melalui inovasi teknologi, Stuncare berkomitmen untuk mewujudkan generasi emas Indonesia 2045." +
                         "\n\n" +
-                        "Ut proverbia non nulla veriora sint quam vestra dogmata. Tamen aberramus a proposito, et, ne longius, prorsus, inquam, Piso, si ista mala sunt, placet. Omnes enim iucundum motum, quo sensus hilaretur. Cum id fugiunt, re eadem defendunt, quae Peripatetici, verba. Quibusnam praeteritis? Portenta haec esse dicit, quidem hactenus; Si id dicis, vicimus. Qui ita affectus, beatum esse numquam probabis; Igitur neque stultorum quisquam beatus neque sapientium non beatus.", fontSize = 16.sp, fontWeight = FontWeight.Normal)
+                        "Dengan mengedukasi masyarakat dan menyediakan alat pemantauan yang mudah digunakan, Stuncare berupaya meningkatkan kesadaran akan pentingnya gizi dan kesehatan sejak dini, serta membantu mencegah stunting. Diharapkan, aplikasi ini dapat mendukung visi mewujudkan generasi emas Indonesia yang sehat dan bebas dari stunting. " +
+                        "\n\n" +
+                        "Dukungan dari para ahli gizi dan dokter anak memastikan bahwa informasi dan layanan yang diberikan terpercaya dan akurat, sehingga orang tua bisa lebih percaya diri dalam merawat dan mendukung pertumbuhan anak mereka.", fontSize = 16.sp, fontWeight = FontWeight.Normal)
             }
         }
     }

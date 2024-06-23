@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,6 +23,7 @@ import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -39,6 +41,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -75,10 +78,16 @@ fun WebinarScreen(
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp)
+                    .fillMaxWidth()
                     .horizontalScroll(rememberScrollState()),
             ) {
-                Button(onClick = { /* Tombol 1 diklik */ }) {
+                Spacer(modifier = Modifier.width(24.dp))
+                Button(
+                    onClick = { /* Tombol 1 diklik */ },
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF756AB6)
+                    ),
+                ) {
                     Text(text = "Semua")
                 }
                 Spacer(modifier = Modifier.width(10.dp))
@@ -93,10 +102,13 @@ fun WebinarScreen(
                 OutlinedButton(onClick = { /* Tombol 3 diklik */ }) {
                     Text(text = "Live")
                 }
+                Spacer(modifier = Modifier.width(24.dp))
             }
+            Spacer(modifier = Modifier.height(10.dp))
+
             LazyColumn(
                 modifier = Modifier
-                    .padding(top = 20.dp)
+                    .fillMaxSize()
             ) {
                 items(webinars) {
                     WebinarItemCard(
@@ -144,7 +156,9 @@ fun WebinarItemCard(modifier: Modifier = Modifier, webinar: Webinar, onItemClick
                 Text(
                     text = webinar.title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(6.dp))
                 Row(
@@ -187,7 +201,7 @@ fun WebinarItemCard(modifier: Modifier = Modifier, webinar: Webinar, onItemClick
                         modifier = Modifier.padding(start = 6.dp, end = 6.dp)
                     ) {
                         Text(
-                            text = webinar.location,
+                            text = webinar.category,
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Medium,
                             color = Color.White,

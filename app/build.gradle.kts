@@ -99,6 +99,14 @@ dependencies {
     // material 3
     implementation("androidx.compose.material3:material3:1.3.0-beta01")
 
-    //splash screen
+    // splash screen
     implementation("androidx.core:core-splashscreen:1.2.0-alpha01")
+
+    // pager
+    implementation ("com.google.accompanist:accompanist-pager:0.13.0")
+    implementation ("com.google.accompanist:accompanist-pager-indicators:0.13.0")
+    implementation ("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+
+    // permission
+    implementation("com.google.accompanist:accompanist-permissions:0.31.1-alpha")
 }

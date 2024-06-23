@@ -90,6 +90,10 @@ fun ResepScreen(
                     navController.navigate(Screen.DetailResep.route + "/$id")
                 }
             }
+            
+            item { 
+                Spacer(modifier = Modifier.height(20.dp))
+            }
         }
     }
 }
@@ -160,7 +164,7 @@ fun MenuResep(modifier: Modifier = Modifier, navController: NavController) {
                         CircleShape
                     )
                     .clickable {
-                        navController.navigate(Screen.Resep.route)
+                        navController.navigate(Screen.MenuSarapan.route)
                     }
             ) {
                 Image(painter = painterResource(id = R.drawable.ic_menu_malam), contentDescription = "Icon Menu Malam", modifier = Modifier.size(36.dp))
@@ -192,32 +196,3 @@ fun MenuResep(modifier: Modifier = Modifier, navController: NavController) {
 
     }
 }
-
-// https://stackoverflow.com/questions/67919707/jetpack-compose-how-to-put-a-lazyverticalgrid-inside-a-scrollable-column
-
-//LazyRow(
-//modifier = modifier.padding(contentPadding),
-//contentPadding = PaddingValues(24.dp),
-//horizontalArrangement = Arrangement.spacedBy(16.dp),
-//) {
-//    items(reseps) {
-//        ResepItemHeader(resep = it) { id ->
-////                navController.navigate(Screen.Detail.route + "/$id")
-//        }
-//    }
-//}
-
-
-//LazyVerticalGrid(
-//modifier = modifier.padding(contentPadding),
-//contentPadding = PaddingValues(24.dp),
-//verticalArrangement = Arrangement.spacedBy(16.dp),
-//horizontalArrangement = Arrangement.spacedBy(16.dp),
-//columns = GridCells.Adaptive(140.dp)
-//) {
-//    items(reseps) {
-//        ResepItemHeader(resep = it) { id ->
-////                navController.navigate(Screen.Detail.route + "/$id")
-//        }
-//    }
-//}

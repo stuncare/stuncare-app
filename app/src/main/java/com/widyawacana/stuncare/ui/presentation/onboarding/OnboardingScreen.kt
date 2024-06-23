@@ -16,13 +16,13 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -43,8 +43,9 @@ import com.widyawacana.stuncare.ui.navigation.Screen
 import kotlinx.coroutines.launch
 
 @Composable
-fun OnboardingScreen(navController: NavController,
-                     modifier: Modifier = Modifier
+fun OnboardingScreen(
+    navController: NavController,
+    modifier: Modifier = Modifier
 ) {
     val onBoardings = OnBoardingData.onBoardingItems
 
@@ -102,7 +103,11 @@ fun OnBoardingContent(
                         .padding(24.dp)
                 ) {
 
-                    Image(painter = painterResource(id = onBoardings[page].resId) , contentDescription = "", modifier  = Modifier.height(280.dp))
+                    Image(
+                        painter = painterResource(id = onBoardings[page].resId),
+                        contentDescription = "",
+                        modifier = Modifier.height(280.dp)
+                    )
                     Text(
                         text = onBoardings[page].title,
                         style = MaterialTheme.typography.titleLarge,
@@ -159,7 +164,8 @@ fun OnBoardingContent(
                     ) {
                         Text(
                             text = "Skip",
-                            style = MaterialTheme.typography.bodyLarge
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = Color(0xFF756AB6)
                         )
                     }
 
@@ -170,7 +176,10 @@ fun OnBoardingContent(
                                 pagerState.animateScrollToPage(nextPage)
                             }
                         },
-                        modifier = Modifier.height(48.dp)
+                        modifier = Modifier.height(48.dp),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = Color(0xFF756AB6)
+                        ),
                     ) {
                         Text(
                             text = "Next",
@@ -188,8 +197,11 @@ fun OnBoardingContent(
                     modifier = Modifier
                         .padding(16.dp)
                         .fillMaxWidth()
-                        .height(48.dp)
-                        .clip(MaterialTheme.shapes.extraLarge)
+                        .height(48.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF756AB6)
+                    ),
+                    shape = MaterialTheme.shapes.large
                 ) {
                     Text(
                         text = "Get Started",

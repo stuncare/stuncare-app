@@ -17,31 +17,28 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowForwardIos
-import androidx.compose.material.icons.filled.CalendarMonth
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.InsertDriveFile
 import androidx.compose.material.icons.filled.Logout
-import androidx.compose.material.icons.filled.ManageAccounts
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -58,12 +55,18 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.data.local.datastore.DataStore
 import com.widyawacana.stuncare.ui.navigation.Screen
 import com.widyawacana.stuncare.utils.Constant.CLIENT
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen(navController: NavController, context: Context = LocalContext.current) {
     var isSignedOut by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val corountineScope = rememberCoroutineScope()
+
+    val dataStore = DataStore(context)
 
     if (isSignedOut) {
         LaunchedEffect(Unit) {
@@ -87,6 +90,9 @@ fun ProfileScreen(navController: NavController, context: Context = LocalContext.
                 if (task.isSuccessful) {
                     FirebaseAuth.getInstance().signOut()
                     isSignedOut = true
+                    corountineScope.launch {
+                        dataStore.clearStatus()
+                    }
                 } else {
                     Toast.makeText(
                         context,
@@ -96,13 +102,14 @@ fun ProfileScreen(navController: NavController, context: Context = LocalContext.
                 }
             }
         })
-
     }
 }
 
 
 @Composable
 fun ProfileContent(navController: NavController, onLogoutClick: () -> Unit) {
+    val currentUser = FirebaseAuth.getInstance().currentUser?.email?.substringBefore("@") ?: "N/A"
+
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -116,7 +123,7 @@ fun ProfileContent(navController: NavController, onLogoutClick: () -> Unit) {
                     .padding(bottom = 30.dp)
                     .background(
                         color = Color(android.graphics.Color.parseColor("#756AB6")),
-                        shape = RoundedCornerShape(bottomStart = 360.dp, bottomEnd = 360.dp)
+                        shape = RoundedCornerShape(bottomStart = 60.dp, bottomEnd = 60.dp)
                     ),
                 contentAlignment = Alignment.Center,
             ) {
@@ -130,15 +137,16 @@ fun ProfileContent(navController: NavController, onLogoutClick: () -> Unit) {
                         modifier = Modifier
                             .size(132.dp)
                             .border(
-                                BorderStroke(borderWidth, androidx.compose.ui.graphics.Color.White),
+                                BorderStroke(borderWidth, Color.White),
                                 CircleShape
                             )
                             .clip(
                                 CircleShape
                             )
                     )
+                    Spacer(modifier = Modifier.height(10.dp))
                     Text(
-                        "Julia Situmorang",
+                        text = currentUser,
                         fontSize = 24.sp,
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold
@@ -168,12 +176,53 @@ fun ProfileItemCard(
     ) {
         Column() {
             Spacer(modifier = modifier.height(10.dp))
-            // Edit Profile
+//            // Edit Profile
+//            Row(
+//                modifier = modifier
+//                    .fillMaxWidth()
+//                    .clickable {
+//                        onLogoutClick
+//                    }
+//                    .padding(6.dp),
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceBetween
+//            ) {
+//                Row(verticalAlignment = Alignment.CenterVertically) {
+//                    Icon(
+//                        imageVector = Icons.Default.ManageAccounts,
+//                        contentDescription = "Icon Calendar",
+//                        modifier = Modifier.size(18.dp),
+//                        tint = Color.DarkGray
+//                    )
+//
+//                    Spacer(modifier = modifier.height(4.dp))
+//
+//                    Text(
+//                        text = "Edit Profile",
+//                        color = Color.DarkGray,
+//                        fontWeight = FontWeight.Medium,
+//                        fontSize = 16.sp
+//                    )
+//                }
+//                Row(verticalAlignment = Alignment.CenterVertically) {
+//                    Icon(
+//                        imageVector = Icons.Default.ArrowForwardIos,
+//                        contentDescription = "Icon Arrow",
+//                        modifier = Modifier.size(18.dp),
+//                        tint = Color.DarkGray
+//                    )
+//                }
+//            }
+//            Spacer(modifier = modifier.height(10.dp))
+//            Divider(color = Color.LightGray, thickness = 1.dp)
+//            Spacer(modifier = modifier.height(10.dp))
+
+            // Tentang Kita
             Row(
                 modifier = modifier
                     .fillMaxWidth()
                     .clickable {
-                        onLogoutClick
+                        navController.navigate(Screen.About.route)
                     }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -181,8 +230,8 @@ fun ProfileItemCard(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Icon(
-                        imageVector = Icons.Default.ManageAccounts,
-                        contentDescription = "Icon Calendar",
+                        imageVector = Icons.Default.Info,
+                        contentDescription = "Icon Info",
                         modifier = Modifier.size(18.dp),
                         tint = Color.DarkGray
                     )
@@ -190,19 +239,21 @@ fun ProfileItemCard(
                     Spacer(modifier = modifier.height(4.dp))
 
                     Text(
-                        text = "Edit Profile",
+                        text = "Tentang Kita",
                         color = Color.DarkGray,
                         fontWeight = FontWeight.Medium,
                         fontSize = 16.sp
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowForwardIos,
-                        contentDescription = "Icon Arrow",
-                        modifier = Modifier.size(18.dp),
-                        tint = Color.DarkGray
-                    )
+                    IconButton(onClick = { navController.navigate(Screen.About.route) }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowForwardIos,
+                            contentDescription = "Icon Arrow",
+                            modifier = Modifier.size(18.dp),
+                            tint = Color.DarkGray
+                        )
+                    }
                 }
             }
             Spacer(modifier = modifier.height(10.dp))
@@ -238,12 +289,14 @@ fun ProfileItemCard(
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowForwardIos,
-                        contentDescription = "Icon Arrow",
-                        modifier = Modifier.size(18.dp),
-                        tint = Color.DarkGray
-                    )
+                    IconButton(onClick = { navController.navigate(Screen.ContactUs.route) }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowForwardIos,
+                            contentDescription = "Icon Arrow",
+                            modifier = Modifier.size(18.dp),
+                            tint = Color.DarkGray
+                        )
+                    }
                 }
             }
             Spacer(modifier = modifier.height(10.dp))
@@ -279,66 +332,27 @@ fun ProfileItemCard(
                     )
                 }
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowForwardIos,
-                        contentDescription = "Icon Arrow",
-                        modifier = Modifier.size(18.dp),
-                        tint = Color.DarkGray
-                    )
-                }
-            }
-            Spacer(modifier = modifier.height(10.dp))
-            Divider(color = Color.LightGray, thickness = 1.dp)
-            Spacer(modifier = modifier.height(10.dp))
-
-            // Tentang Kita
-            Row(
-                modifier = modifier
-                    .fillMaxWidth()
-                    .clickable {
-                        navController.navigate(Screen.About.route)
+                    IconButton(onClick = { navController.navigate(Screen.TermCondition.route) }) {
+                        Icon(
+                            imageVector = Icons.Default.ArrowForwardIos,
+                            contentDescription = "Icon Arrow",
+                            modifier = Modifier.size(18.dp),
+                            tint = Color.DarkGray
+                        )
                     }
-                    .padding(6.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.Info,
-                        contentDescription = "Icon Info",
-                        modifier = Modifier.size(18.dp),
-                        tint = Color.DarkGray
-                    )
-
-                    Spacer(modifier = modifier.height(4.dp))
-
-                    Text(
-                        text = "Tentang Kita",
-                        color = Color.DarkGray,
-                        fontWeight = FontWeight.Medium,
-                        fontSize = 16.sp
-                    )
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(
-                        imageVector = Icons.Default.ArrowForwardIos,
-                        contentDescription = "Icon Arrow",
-                        modifier = Modifier.size(18.dp),
-                        tint = Color.DarkGray
-                    )
                 }
             }
             Spacer(modifier = modifier.height(10.dp))
             Divider(color = Color.LightGray, thickness = 1.dp)
-            Spacer(modifier = modifier.height(10.dp))
+            Spacer(modifier = modifier.height(0.dp))
 
             // Logout
             Row(
                 modifier = modifier
                     .fillMaxWidth()
-//                    .clickable {
-//                        navController.navigate(Screen.Login.route)
-//                    }
+                    .clickable {
+                        onLogoutClick()
+                    }
                     .padding(6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -372,7 +386,6 @@ fun ProfileItemCard(
                 }
             }
             Spacer(modifier = modifier.height(10.dp))
-
         }
     }
 }

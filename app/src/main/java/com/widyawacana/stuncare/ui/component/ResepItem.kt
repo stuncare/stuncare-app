@@ -25,6 +25,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.BlurredEdgeTreatment
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -57,7 +60,8 @@ fun ResepItemVertical(modifier: Modifier = Modifier, resep: Resep, onItemClicked
                 Text(
                     text = resep.title,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    maxLines = 1,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Box(
@@ -102,10 +106,11 @@ fun ResepItemVertical(modifier: Modifier = Modifier, resep: Resep, onItemClicked
             }
             Image(
                 painter = painterResource(id = resep.photo),
-                contentDescription = "Image Game",
+                contentDescription = "Image Resep",
                 modifier = Modifier
                     .height(100.dp)
-                    .width(140.dp),
+                    .width(140.dp)
+                    .clip(RoundedCornerShape(10.dp)),
                 contentScale = ContentScale.Crop
             )
         }
@@ -141,6 +146,7 @@ fun ResepItemHorizontal(
                 text = resep.title,
                 fontWeight = FontWeight.Bold,
                 fontSize = 14.sp,
+                maxLines = 1,
                 modifier = modifier.padding(start = 10.dp, top = 10.dp, end = 10.dp, bottom = 0.dp)
             )
             Row(
@@ -223,7 +229,8 @@ fun ResepItemHeader(
                     text = resep.title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 20.sp,
-                    color = Color.White
+                    color = Color.White,
+                    maxLines = 1,
                 )
             }
 

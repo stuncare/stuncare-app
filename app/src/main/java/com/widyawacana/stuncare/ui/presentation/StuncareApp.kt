@@ -12,11 +12,13 @@ import androidx.compose.material.icons.filled.Home
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -30,6 +32,7 @@ import androidx.navigation.navArgument
 import com.example.stuncare.presentation.LoginScreen
 import com.widyawacana.stuncare.MainActivity
 import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.model.Alarm
 import com.widyawacana.stuncare.ui.navigation.NavigationItem
 import com.widyawacana.stuncare.ui.navigation.Screen
 import com.widyawacana.stuncare.ui.presentation.artikel.PageArtikelAwal
@@ -38,8 +41,10 @@ import com.widyawacana.stuncare.ui.presentation.beranda.HomeScreen
 import com.widyawacana.stuncare.ui.presentation.chatbot.ChatbotScreen
 import com.widyawacana.stuncare.ui.presentation.gizianak.StatusGiziAnakScreen
 import com.widyawacana.stuncare.ui.presentation.gizianak.giziawalpage
+import com.widyawacana.stuncare.ui.presentation.kalender.KalenderScreen
+import com.widyawacana.stuncare.ui.presentation.kalender.ListKalenderScreen
 import com.widyawacana.stuncare.ui.presentation.kehamilan.PerkembanganKehamilanScreen
-import com.widyawacana.stuncare.ui.presentation.kehamilan.StatusPerkembanganKehamilanScreen
+import com.widyawacana.stuncare.ui.presentation.kehamilan.StatusKehamilanScreen
 import com.widyawacana.stuncare.ui.presentation.onboarding.OnboardingScreen
 import com.widyawacana.stuncare.ui.presentation.profile.AboutScreen
 import com.widyawacana.stuncare.ui.presentation.profile.ContactUsScreen
@@ -61,14 +66,12 @@ import pagegzianak
 fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController = rememberNavController()) {
     val navBackStack by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStack?.destination?.route
-    val context = LocalContext.current
     
     Scaffold(
         bottomBar = {
             AnimatedVisibility(visible = currentRoute.shouldShowBottomBar()) {
                 BottomBar(navController = navController)
             }
-
         }
     ) {contentPadding ->
         NavHost(
@@ -155,9 +158,11 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
             }
 
             composable(
-                Screen.StatusPerkembanganKehamilan.route
+                "${Screen.StatusPerkembanganKehamilan.route}/{pregnancyAge}",
+                arguments = listOf(navArgument("pregnancyAge") { type = NavType.IntType })
             ) { navBackStackEntry ->
-                StatusPerkembanganKehamilanScreen(navController = navController)
+                val pregnancyAge = navBackStackEntry.arguments?.getInt("pregnancyAge")
+                StatusKehamilanScreen(navController = navController, pregnancyAge = pregnancyAge)
             }
 
             composable(
@@ -203,7 +208,24 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
             composable(
                 Screen.Chatbot.route
             ) { navBackStackEntry ->
-                ChatbotScreen()
+                ChatbotScreen(navController = navController)
+            }
+
+            composable(
+                Screen.Kalender.route
+            ) { navBackStackEntry ->
+                KalenderScreen(navController = navController)
+            }
+
+            val alarmsList = listOf(
+                Alarm(id = 1, title = "Imunisasi Campak", date = "25-06-2024", time = "09:00 AM"),
+                // Add more AlarmModel objects as needed
+            )
+
+            composable(
+                Screen.ListKalender.route
+            ) { navBackStackEntry ->
+                ListKalenderScreen(navController = navController, alarms = alarmsList)
             }
 
             composable(Screen.Splash.route) {
@@ -218,7 +240,6 @@ fun StuncareApp(modifier: Modifier = Modifier,  navController: NavHostController
         }
 
     }
-
 }
 
 @Composable
@@ -227,7 +248,8 @@ private fun BottomBar(
     modifier: Modifier = Modifier
 ) {
     NavigationBar(
-        modifier = modifier
+        modifier = modifier,
+        containerColor = Color.White
     ) {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute = navBackStackEntry?.destination?.route
@@ -267,7 +289,14 @@ private fun BottomBar(
                     }
                 },
                 icon = { Icon(imageVector = item.icon, contentDescription = item.title) },
-                label = { Text(text = item.title) }
+                label = { Text(text = item.title) },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = Color(0xFF756AB6),
+                    unselectedIconColor = Color.Gray,
+                    selectedTextColor = Color(0xFF756AB6),
+                    unselectedTextColor = Color.Gray,
+                    indicatorColor = Color.Transparent
+                )
             )
         }
     }
