@@ -12,7 +12,10 @@
       integrationID: "b059d1c1-8ab4-4ea5-b3d0-7be8d3386633", // The ID of this integration.
       region: "au-syd", // The region your integration is hosted in.
       serviceInstanceID: "372721f1-5b08-44f1-90ac-017a23233a7c", // The ID of your service instance.
-      onLoad: async (instance) => { await instance.render(); }
+      onLoad: async (instance) => { await instance.render(); },
+      openChatByDefault: true,
+      enableFocusTrap: true,
+      hideCloseButton: true,
     };
     setTimeout(function(){
       const t=document.createElement('script');

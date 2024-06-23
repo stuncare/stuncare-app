@@ -2,7 +2,6 @@ package com.widyawacana.stuncare.ui.presentation.register
 
 import android.widget.Toast
 import com.widyawacana.stuncare.R
-
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -14,13 +13,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -49,7 +49,6 @@ import com.widyawacana.stuncare.ui.navigation.Screen
 import com.widyawacana.stuncare.ui.presentation.login.LoginViewModel
 import kotlinx.coroutines.launch
 
-
 @Composable
 fun PageRegister(navController: NavController, viewModel: LoginViewModel = hiltViewModel()) {
     val context = LocalContext.current
@@ -66,7 +65,7 @@ fun PageRegister(navController: NavController, viewModel: LoginViewModel = hiltV
             passwordConfirm = passwordConfirm,
             onEmailChange = { email = it },
             onPasswordChange = { password = it },
-            onPasswordConfirmChange = { passwordConfirm = it } ,
+            onPasswordConfirmChange = { passwordConfirm = it },
             onRegisterClick = {
                 coroutineScope.launch {
                     if (email.isBlank() || password.isBlank()) {
@@ -124,12 +123,7 @@ fun RegisterContent(
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
-//    onLoginClick: () -> Unit,
-//    moveToForgot: () -> Unit,
-//    onGoogleClick: () -> Unit,
     onRegisterClick: () -> Unit,
-//    toggleAuthMode: () -> Unit,
-//    isRegistering: Boolean,
     navController: NavController
 ) {
     Column(
@@ -151,10 +145,6 @@ fun RegisterContent(
                 .height(187.dp)
         )
         var fullName by remember { mutableStateOf("") }
-//        var email by remember { mutableStateOf("") }
-//        var birthDate by remember { mutableStateOf("") }
-//        var password by remember { mutableStateOf("") }
-//        var confirmPassword by remember { mutableStateOf("") }
         var passwordVisible by remember { mutableStateOf(false) }
         var confirmPasswordVisible by remember { mutableStateOf(false) }
 
@@ -194,30 +184,6 @@ fun RegisterContent(
                 .height(56.dp)
         )
 
-//        Spacer(modifier = Modifier.height(12.dp))
-//        Text(
-//            text = "Tanggal Lahir",
-//            fontSize = 14.sp,
-//            fontWeight = FontWeight.Medium,
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(start = 8.dp)
-//        )
-//        Spacer(modifier = Modifier.height(6.dp))
-//        OutlinedTextField(
-//            value = birthDate,
-//            onValueChange = { birthDate = it },
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .height(56.dp),
-//            trailingIcon = {
-////                Image(
-////                    painter = painterResource(id = R.drawable.icontanggal),
-////                    contentDescription = "Timbangan Bayi"
-////                )
-//            }
-//        )
-
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = "Password",
@@ -241,7 +207,7 @@ fun RegisterContent(
                 else
                     painterResource(id = R.drawable.iconpasshide)
 
-                IconButton(onClick = {
+                IconButton(modifier = Modifier.size(24.dp), onClick = {
                     passwordVisible = !passwordVisible
                 }) {
                     Image(painter = image, contentDescription = null)
@@ -272,7 +238,7 @@ fun RegisterContent(
                 else
                     painterResource(id = R.drawable.iconpasshide)
 
-                IconButton(onClick = {
+                IconButton(modifier = Modifier.size(24.dp), onClick = {
                     confirmPasswordVisible = !confirmPasswordVisible
                 }) {
                     Image(painter = image, contentDescription = null)
@@ -287,7 +253,8 @@ fun RegisterContent(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(56.dp),
+            shape = MaterialTheme.shapes.small
         ) {
             Text(
                 text = "Daftar",
@@ -310,7 +277,7 @@ fun RegisterContent(
             TextButton(
                 onClick = {
                     navController.navigate(Screen.Login.route)
-                } // Arahkan Mau Kemana textbutton Lupa Password ini
+                }
             ) {
                 Text(
                     text = "Login",

@@ -27,4 +27,6 @@ sealed class Screen (val route: String){
     data object Splash: Screen("splash")
     data object Chatbot: Screen("chatbot")
     data object Onboarding: Screen("onboarding")
+    data object Kalender: Screen("kalender")
+    data object ListKalender: Screen("list_kalender")
 }

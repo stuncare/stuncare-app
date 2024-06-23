@@ -1,5 +1,6 @@
 package com.widyawacana.stuncare.ui.presentation.resep
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -61,15 +63,17 @@ fun MenuSarapanScreen(
                 )
             }
         })
-    }, modifier = Modifier) { contentPadding ->
+    }) { contentPadding ->
         Column(modifier = Modifier.padding(contentPadding)) {
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 24.dp)
                     .horizontalScroll(rememberScrollState()),
             ) {
-                Button(onClick = { /* Tombol 1 diklik */ }) {
+                Spacer(modifier = Modifier.width(24.dp))
+                Button(onClick = { /* Tombol 1 diklik */ }, colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF756AB6)
+                )) {
                     Text(text = "Semua")
                 }
                 Spacer(modifier = Modifier.width(10.dp))
@@ -84,6 +88,7 @@ fun MenuSarapanScreen(
                 OutlinedButton(onClick = { /* Tombol 3 diklik */ }) {
                     Text(text = "12 Bulan+")
                 }
+                Spacer(modifier = Modifier.width(24.dp))
             }
             LazyVerticalGrid(
                 modifier = modifier,

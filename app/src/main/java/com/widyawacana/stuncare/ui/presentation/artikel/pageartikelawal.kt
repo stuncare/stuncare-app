@@ -21,6 +21,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -35,35 +36,38 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import com.widyawacana.stuncare.data.local.dummy.DummyData.gambarartikel
+import com.widyawacana.stuncare.data.local.dummy.DummyData.listArtikel
 import com.widyawacana.stuncare.model.artikel
 import com.widyawacana.stuncare.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PageArtikelAwal(navController: NavController) {
-    val articles = remember { gambarartikel }
+    val articles = remember { listArtikel }
 
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF756AB6)
-        ), title = { Text(text = "Artikel", color = Color.White) }, navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBackIosNew,
-                    contentDescription = "Back Icon",
-                    tint = Color.White
-                )
-            }
-        })
-    }, modifier = Modifier
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color(0xFF756AB6)
+            ), title = { Text(text = "Artikel", color = Color.White) }, navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = "Back Icon",
+                        tint = Color.White
+                    )
+                }
+            })
+        }, modifier = Modifier
     ) { innerPadding ->
         Column(
             modifier = Modifier.padding(innerPadding)
@@ -71,13 +75,18 @@ fun PageArtikelAwal(navController: NavController) {
             Spacer(modifier = Modifier.height(16.dp))
             // Baris tombol
             Row(
-                modifier = Modifier.padding(horizontal = 24.dp).horizontalScroll(rememberScrollState()),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
             ) {
-                Button(onClick = { /* Tombol 1 diklik */ }) {
+                Spacer(modifier = Modifier.width(24.dp))
+                Button(onClick = { /* Tombol 1 diklik */ }, colors = ButtonDefaults.buttonColors(
+                    containerColor = Color(0xFF756AB6)
+                ),) {
                     Text(text = "Semua")
                 }
                 Spacer(modifier = Modifier.width(10.dp))
-                OutlinedButton(onClick = { /* Tombol 2 diklik */ }) {
+                OutlinedButton(onClick = { /* Tombol 2 diklik */ }, ) {
                     Text(text = "Pertumbuhan")
                 }
                 Spacer(modifier = Modifier.width(10.dp))
@@ -88,6 +97,7 @@ fun PageArtikelAwal(navController: NavController) {
                 OutlinedButton(onClick = { /* Tombol 3 diklik */ }) {
                     Text(text = "Info Sehat")
                 }
+                Spacer(modifier = Modifier.width(24.dp))
             }
             Spacer(modifier = Modifier.height(10.dp))
 
@@ -97,7 +107,7 @@ fun PageArtikelAwal(navController: NavController) {
                     .padding(horizontal = 24.dp)
             ) {
                 items(articles) {
-                    ArtikelItemVertical(artikel = it){ id ->
+                    ArtikelItemVertical(artikel = it) { id ->
                         navController.navigate(Screen.DetailArtikel.route + "/$id")
                     }
                     Spacer(modifier = Modifier.height(16.dp))
@@ -109,12 +119,15 @@ fun PageArtikelAwal(navController: NavController) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ArtikelItemVertical(modifier: Modifier = Modifier, artikel: artikel, onItemClicked: (Int) -> Unit) {
+fun ArtikelItemVertical(
+    modifier: Modifier = Modifier,
+    artikel: artikel,
+    onItemClicked: (Int) -> Unit
+) {
     Card(
         onClick = { onItemClicked(artikel.id) },
         modifier = modifier
             .fillMaxWidth()
-            .width(312.dp)
             .height(120.dp),
         elevation = CardDefaults.cardElevation(10.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White)
@@ -126,13 +139,17 @@ fun ArtikelItemVertical(modifier: Modifier = Modifier, artikel: artikel, onItemC
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Column(horizontalAlignment = Alignment.Start, modifier = Modifier.padding(end = 10.dp)) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                modifier = Modifier.padding(end = 10.dp)
+            ) {
                 Text(
                     text = artikel.judul,
                     fontWeight = FontWeight.Bold,
                     fontSize = 14.sp,
                     maxLines = 2,
-                    modifier = Modifier.width(170.dp)
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.width(160.dp)
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Box(
@@ -148,75 +165,19 @@ fun ArtikelItemVertical(modifier: Modifier = Modifier, artikel: artikel, onItemC
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Medium,
                         color = Color.White,
-                        modifier = Modifier.padding(4.dp)
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                     )
                 }
-
             }
             Image(
                 painter = painterResource(id = artikel.photo),
                 contentDescription = "Image Artikel",
                 modifier = Modifier
+                    .width(140.dp)
                     .height(100.dp)
-                    .width(140.dp),
-                contentScale = ContentScale.Crop
+                    .clip(RoundedCornerShape(10.dp)),
+                contentScale = ContentScale.Crop,
             )
         }
     }
 }
-
-//@OptIn(ExperimentalMaterial3Api::class)
-//@Composable
-//fun ArticleCard(artikel: artikel, onItemClicked: (Int) -> Unit) {
-//    Card(
-//        modifier = Modifier
-//            .fillMaxWidth()
-//            .height(160.dp),
-//        onClick = {
-//            onItemClicked(artikel.id)
-//        }
-//    ) {
-//        Row(
-//            modifier = Modifier
-//                .fillMaxSize()
-//                .padding(8.dp),
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Column(
-//                modifier = Modifier
-//                    .padding(end = 8.dp)
-//            ) {
-//                Text(
-//                    text = artikel.judul,
-//                    style = MaterialTheme.typography.headlineSmall,
-//                    fontSize = 14.sp,
-//                    minLines = 2
-//                )
-//                Spacer(modifier = Modifier.height(8.dp))
-//                Card(
-//                    modifier = Modifier
-//                        .width(150.dp)
-//                        .height(30.dp)
-//                ) {
-//                    Text(
-//                        text = artikel.ket,
-//                        color = Color.White,
-//                        fontSize = 12.sp,
-//                        textAlign = TextAlign.Center,
-//                        modifier = Modifier.padding(start = 10.dp, top = 4.dp, end = 10.dp, bottom = 4.dp)
-//                            .background(Color(0xFF756AB6), shape = RoundedCornerShape(12.dp))
-//                    )
-//                }
-//            }
-//            Image(
-//                painter = painterResource(id = artikel.photo), // Replace with your image resource
-//                contentDescription = null,
-//                contentScale = ContentScale.Crop,
-//                modifier = Modifier
-//                    .width(180.dp)
-//                    .height(140.dp)
-//                    .clip(MaterialTheme.shapes.medium)
-//            )
-//        }
-//    }
-//}

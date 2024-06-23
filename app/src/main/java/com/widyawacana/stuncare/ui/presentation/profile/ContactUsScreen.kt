@@ -1,5 +1,8 @@
 package com.widyawacana.stuncare.ui.presentation.profile
 
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -14,12 +17,15 @@ import androidx.compose.material.icons.filled.ArrowBackIosNew
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.ReportGmailerrorred
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Shapes
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -30,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,6 +67,7 @@ fun ContactUsScreen(modifier: Modifier = Modifier, navController: NavController)
 
         var email by remember { mutableStateOf("") }
         var messages by remember { mutableStateOf("") }
+        val context = LocalContext.current
 
         Column(
             modifier = Modifier
@@ -103,9 +111,6 @@ fun ContactUsScreen(modifier: Modifier = Modifier, navController: NavController)
                     value = email,
                     onValueChange = { email = it },
                     modifier = Modifier.fillMaxWidth(),
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Default.Email, contentDescription = null)
-                    }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
@@ -117,24 +122,47 @@ fun ContactUsScreen(modifier: Modifier = Modifier, navController: NavController)
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(120.dp),
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.ReportGmailerrorred,
-                            contentDescription = null
-                        )
-                    }
                 )
 
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Button(onClick = { /*TODO*/ }, modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)) {
+                Button(
+                    onClick = {
+                        if (email.isBlank() || messages.isBlank()) {
+                            Toast.makeText(
+                                context,
+                                "Semua field wajib diisi!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            sendEmail(context, email, messages)
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = MaterialTheme.shapes.small,
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = Color(0xFF756AB6)
+                    ),
+                ) {
                     Text(text = "Kirim")
                 }
-
-                
             }
         }
+    }
+}
+
+fun sendEmail(context: Context, subject: String, body: String) {
+    val intent = Intent(Intent.ACTION_SEND).apply {
+        type = "message/rfc822"
+        putExtra(Intent.EXTRA_EMAIL, arrayOf("stuncareid@gmail.com"))
+        putExtra(Intent.EXTRA_SUBJECT, subject)
+        putExtra(Intent.EXTRA_TEXT, body)
+    }
+    try {
+        context.startActivity(Intent.createChooser(intent, "Kirim email melalui..."))
+    } catch (ex: android.content.ActivityNotFoundException) {
+        // Handle case where no email apps are installed
     }
 }

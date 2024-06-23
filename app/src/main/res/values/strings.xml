@@ -3,12 +3,13 @@
     <string name="menu_home">Home</string>
     <string name="menu_webinar">Webinar</string>
     <string name="menu_artikel">Artikel</string>
-    <string name="menu_profil">Profil</string>
+    <string name="menu_profil">Profile</string>
+    <string name="menu_chatbot">Chatbot</string>
 
     <string name="menu_kembang">Kembang</string>
     <string name="menu_tumbuh">Tumbuh</string>
     <string name="menu_resep">Resep</string>
-    <string name="menu_kalender">Chatbot</string>
+    <string name="menu_kalender">Kalender</string>
 
     <string name="menu_sarapan">Sarapan</string>
     <string name="menu_siang">Siang</string>

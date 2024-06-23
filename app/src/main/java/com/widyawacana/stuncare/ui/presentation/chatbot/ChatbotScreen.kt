@@ -22,12 +22,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.navigation.NavController
 import com.widyawacana.stuncare.ui.presentation.StuncareApp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun ChatbotScreen(modifier: Modifier = Modifier) {
+fun ChatbotScreen(modifier: Modifier = Modifier, navController: NavController) {
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
@@ -36,7 +37,7 @@ fun ChatbotScreen(modifier: Modifier = Modifier) {
                 title = { Text(text = "Chatbot", color = Color.White) },
                 navigationIcon = {
                     IconButton(onClick = {
-//                        navController.popBackStack()
+                        navController.popBackStack()
                     }) {
                         Icon(
                             imageVector = Icons.Default.ArrowBackIosNew,

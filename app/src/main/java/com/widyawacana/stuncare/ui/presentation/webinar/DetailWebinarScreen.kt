@@ -1,5 +1,7 @@
 package com.widyawacana.stuncare.ui.presentation.webinar
 
+import android.content.Intent
+import android.net.Uri
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +29,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -34,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.data.local.dummy.DummyData
 import com.widyawacana.stuncare.ui.presentation.resep.CardInfoResep
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -53,17 +57,22 @@ fun DetailWebinarScreen(modifier: Modifier = Modifier, navController: NavControl
         })
     }, modifier = Modifier
     ) { contentPadding ->
+        val webinar = DummyData.listWebinar.filter { webinar ->
+            webinar.id == id
+        }
+        val context = LocalContext.current
         Column(modifier = Modifier
             .padding(contentPadding)
             .verticalScroll(rememberScrollState())){
             Box {
-                Image(painter = painterResource(id = R.drawable.webinar_1), contentDescription = "Image Webinar", modifier = Modifier
+                Image(painter = painterResource(id = webinar[0].photo), contentDescription = "Image Webinar", modifier = Modifier
                     .fillMaxWidth()
                     .height(240.dp), contentScale = ContentScale.Crop)
             }
             Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
                 Spacer(modifier = Modifier.height(20.dp))
-                Text("WEBINAR, Menuju Generasi Emas Bebas Stunting", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(text = webinar[0].title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
+
                 Spacer(modifier = Modifier.height(10.dp))
                 Card(
                     modifier = Modifier
@@ -71,9 +80,8 @@ fun DetailWebinarScreen(modifier: Modifier = Modifier, navController: NavControl
                         .height(28.dp),
                     colors = CardDefaults.cardColors(containerColor = Color(0xFF756AB6)),
                 ) {
-                    // Dummy data id
                     Text(
-                        text = "Zoom",
+                        text = webinar[0].category,
                         color = Color.White,
                         fontSize = 14.sp,
                         textAlign = TextAlign.Center,
@@ -81,23 +89,24 @@ fun DetailWebinarScreen(modifier: Modifier = Modifier, navController: NavControl
                             .fillMaxWidth()
                     )
                 }
-//                CardInfoResep(navController = navController)
                 Spacer(modifier = Modifier.height(20.dp))
                 Text("Pembicara", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+
                 Spacer(modifier = Modifier.height(8.dp))
-                Text("Dr. Tan Shot Yen, M. Hum.\n" +
-                        "Dr. Nani Nurhaeni, S. Kep., MN.\n" +
-                        "Kresensia Tania, S. Kep.\n" +
-                        "Ns. Elisabeth Isti Daryanti, S. Kep., MSN", fontSize = 16.sp, fontWeight = FontWeight.Normal)
+                Text(text = webinar[0].host, fontSize = 16.sp, fontWeight = FontWeight.Normal)
+
                 Spacer(modifier = Modifier.height(16.dp))
                 Text("Lokasi", fontSize = 16.sp, fontWeight = FontWeight.Bold)
+
                 Spacer(modifier = Modifier.height(8.dp))
-//                Text("Zoom", fontSize = 16.sp, fontWeight = FontWeight.Normal)
-                Text("https://us06web.zoom.us/j/89554588370pwd=fQTIuqCO" +
-                        "N8Y3AIjo9gGxyRpkMeFOt0.1", fontSize = 16.sp, fontWeight = FontWeight.Normal, color = Color(0xFF756AB6))
+                Text(text = webinar[0].location, fontSize = 16.sp, fontWeight = FontWeight.Normal, color = Color(0xFF756AB6))
+
                 Spacer(modifier = Modifier.height(20.dp))
                 Button(
-                    onClick = {  },
+                    onClick = {
+                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(webinar[0].location))
+                        context.startActivity(intent)
+                    },
                     colors = ButtonDefaults.buttonColors(
                         containerColor = Color(0xFF756AB6)
                     ),

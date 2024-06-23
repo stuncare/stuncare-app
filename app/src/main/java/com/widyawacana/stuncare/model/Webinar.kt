@@ -10,4 +10,5 @@ data class Webinar(
     val time: String,
     val host: String,
     val location: String,
+    val category: String
 )

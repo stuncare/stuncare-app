@@ -26,6 +26,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -46,7 +47,11 @@ import com.widyawacana.stuncare.ui.navigation.Screen
 import com.widyawacana.stuncare.ui.presentation.artikel.ArtikelItemVertical
 
 @Composable
-fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyData.gambarartikel, navController: NavController) {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    artikels: List<artikel> = DummyData.listArtikel,
+    navController: NavController
+) {
     val currentUser = FirebaseAuth.getInstance().currentUser?.email?.substringBefore("@") ?: "N/A"
 
     LazyColumn(
@@ -107,14 +112,20 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                 }
             }
         }
-        
-        item { 
-            Row(modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .padding(start = 24.dp, top = 20.dp)) {
+
+        item {
+            Row(
+                modifier = Modifier
+                    .horizontalScroll(rememberScrollState())
+                    .padding(start = 24.dp, top = 20.dp, end = 24.dp)
+            ) {
                 SliderHeader()
                 Spacer(modifier = Modifier.width(12.dp))
-                SliderHeader()
+                SliderHeader2()
+                Spacer(modifier = Modifier.width(12.dp))
+                SliderHeader3()
+                Spacer(modifier = Modifier.width(12.dp))
+                SliderHeader4()
             }
         }
 
@@ -139,31 +150,14 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                                 CircleShape
                             )
                             .clickable {
-                                navController.navigate(Screen.GiziAnakAwal.route)
-                            }
-                    ) {
-                        Image(painter = painterResource(id = R.drawable.ic_tumbuh), contentDescription = "Icon Tumbuh", modifier = Modifier.size(36.dp))
-                    }
-                    Spacer(modifier = Modifier.height(4.dp))
-                    Text(text = stringResource(id = R.string.menu_tumbuh), fontSize = 12.sp)
-                }
-
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Box(
-                        contentAlignment = Alignment.Center, modifier = Modifier
-                            .size(72.dp)
-                            .background(
-                                color = Color(android.graphics.Color.parseColor("#AC87C5")),
-                                shape = RoundedCornerShape(60.dp)
-                            )
-                            .clip(
-                                CircleShape
-                            )
-                            .clickable {
                                 navController.navigate(Screen.PerkembanganKehamilan.route)
                             }
                     ) {
-                        Image(painter = painterResource(id = R.drawable.ic_kembang), contentDescription = "Icon Kembang", modifier = Modifier.size(36.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_kembang),
+                            contentDescription = "Icon Kembang",
+                            modifier = Modifier.size(36.dp)
+                        )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = stringResource(id = R.string.menu_kembang), fontSize = 12.sp)
@@ -184,7 +178,11 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                                 navController.navigate(Screen.Resep.route)
                             }
                     ) {
-                        Image(painter = painterResource(id = R.drawable.ic_resep), contentDescription = "Icon Resep", modifier = Modifier.size(36.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_resep),
+                            contentDescription = "Icon Resep",
+                            modifier = Modifier.size(36.dp)
+                        )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = stringResource(id = R.string.menu_resep), fontSize = 12.sp)
@@ -205,7 +203,36 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
                                 navController.navigate(Screen.Chatbot.route)
                             }
                     ) {
-                        Image(painter = painterResource(id = R.drawable.ic_chatbot), contentDescription = "Icon Kalender", modifier = Modifier.size(36.dp))
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_chatbot),
+                            contentDescription = "Icon Kalender",
+                            modifier = Modifier.size(36.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(text = stringResource(id = R.string.menu_chatbot), fontSize = 12.sp)
+                }
+
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Box(
+                        contentAlignment = Alignment.Center, modifier = Modifier
+                            .size(72.dp)
+                            .background(
+                                color = Color(android.graphics.Color.parseColor("#AC87C5")),
+                                shape = RoundedCornerShape(60.dp)
+                            )
+                            .clip(
+                                CircleShape
+                            )
+                            .clickable {
+                                navController.navigate(Screen.Kalender.route)
+                            }
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.ic_kalender),
+                            contentDescription = "Icon Tumbuh",
+                            modifier = Modifier.size(36.dp)
+                        )
                     }
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(text = stringResource(id = R.string.menu_kalender), fontSize = 12.sp)
@@ -215,34 +242,39 @@ fun HomeScreen(modifier: Modifier = Modifier, artikels: List<artikel> = DummyDat
         }
 
         item {
-            Row(modifier = Modifier
-                .padding(start = 24.dp, top = 20.dp, end = 24.dp, bottom = 12.dp)
-                .fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier
+                    .padding(start = 24.dp, top = 10.dp, end = 24.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Text("Rekomendasi Artikel", fontSize = 16.sp, fontWeight = FontWeight.SemiBold)
-                Text("See all", fontSize = 12.sp, fontWeight = FontWeight.Normal, color = Color(0xFF756AB6))
+                TextButton(
+                    onClick = { navController.navigate(Screen.Artikel.route) },
+                ) {
+                    Text(
+                        text = "See all",
+                        fontSize = 12.sp,
+                        fontWeight = FontWeight.Normal,
+                        color = Color(0xFF756AB6)
+                    )
+                }
             }
         }
 
         items(artikels) {
-            ArtikelItemVertical(artikel = it, modifier = modifier.padding(horizontal = 24.dp, vertical = 5.dp),
-//                contentPadding = PaddingValues(bottom = 10.dp),
-//                horizontalArrangement = Arrangement.spacedBy(16.dp)
-            ) {
+            ArtikelItemVertical(
+                artikel = it,
+                modifier = modifier.padding(horizontal = 24.dp, vertical = 5.dp)
+            ) { id ->
+                navController.navigate(Screen.DetailArtikel.route + "/$id")
             }
         }
 
-
-
-//        item {
-//            LazyRow(
-//                modifier = modifier.padding(start = 24.dp, end = 24.dp),
-//                contentPadding = PaddingValues(bottom = 10.dp),
-//                horizontalArrangement = Arrangement.spacedBy(16.dp),
-//            ) {
-//
-//            }
-//        }
-
+        item {
+            Spacer(modifier = Modifier.height(20.dp))
+        }
 
     }
 }
@@ -267,6 +299,75 @@ fun SliderHeader(modifier: Modifier = Modifier) {
                 .fillMaxWidth(),
             contentScale = ContentScale.Crop
         )
-        
+
+    }
+}
+
+@Composable
+fun SliderHeader2(modifier: Modifier = Modifier) {
+    Card(
+        onClick = { },
+        modifier = modifier
+            .fillMaxWidth()
+            .width(300.dp)
+            .height(120.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.slider_2),
+            contentDescription = "Image Resep",
+            modifier = modifier
+                .height(120.dp)
+                .fillMaxWidth(),
+            contentScale = ContentScale.Crop
+        )
+
+    }
+}
+
+@Composable
+fun SliderHeader3(modifier: Modifier = Modifier) {
+    Card(
+        onClick = { },
+        modifier = modifier
+            .fillMaxWidth()
+            .width(300.dp)
+            .height(120.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.slider_3),
+            contentDescription = "Image Resep",
+            modifier = modifier
+                .height(120.dp)
+                .fillMaxWidth(),
+            contentScale = ContentScale.Crop
+        )
+
+    }
+}
+
+@Composable
+fun SliderHeader4(modifier: Modifier = Modifier) {
+    Card(
+        onClick = { },
+        modifier = modifier
+            .fillMaxWidth()
+            .width(300.dp)
+            .height(120.dp),
+        elevation = CardDefaults.cardElevation(10.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.slider_4),
+            contentDescription = "Image Resep",
+            modifier = modifier
+                .height(120.dp)
+                .fillMaxWidth(),
+            contentScale = ContentScale.Crop
+        )
+
     }
 }

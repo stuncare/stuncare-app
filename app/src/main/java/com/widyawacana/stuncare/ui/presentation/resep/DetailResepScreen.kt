@@ -43,65 +43,74 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.data.local.dummy.DummyData
+import com.widyawacana.stuncare.model.Resep
 import com.widyawacana.stuncare.ui.navigation.Screen
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailResepScreen(modifier: Modifier = Modifier, navController: NavController, id: Int?) {
-    Scaffold(topBar = {
-        CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color(0xFF756AB6)
-        ), title = { Text(text = "Detail Resep", color = Color.White) }, navigationIcon = {
-            IconButton(onClick = { navController.popBackStack() }) {
-                Icon(
-                    imageVector = Icons.Default.ArrowBackIosNew,
-                    contentDescription = "Back Icon",
-                    tint = Color.White
-                )
-            }
-        })
-    }, modifier = Modifier
-    ) {contentPadding ->
-        Column(modifier = Modifier
-            .padding(contentPadding)
-            .verticalScroll(rememberScrollState())){
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = Color(0xFF756AB6)
+            ), title = { Text(text = "Detail Resep", color = Color.White) }, navigationIcon = {
+                IconButton(onClick = { navController.popBackStack() }) {
+                    Icon(
+                        imageVector = Icons.Default.ArrowBackIosNew,
+                        contentDescription = "Back Icon",
+                        tint = Color.White
+                    )
+                }
+            })
+        }, modifier = Modifier
+    ) { contentPadding ->
+        val recipes = DummyData.listResep.filter { recipe ->
+            recipe.id == id
+        }
+        Column(
+            modifier = Modifier
+                .padding(contentPadding)
+                .verticalScroll(rememberScrollState())
+        ) {
             Box {
-                Image(painter = painterResource(id = R.drawable.resep_1), contentDescription = "Image Resep", modifier = Modifier
-                    .fillMaxWidth()
-                    .height(200.dp), contentScale = ContentScale.Crop)
+                Image(
+                    painter = painterResource(id = recipes[0].photo),
+                    contentDescription = "Image Resep",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(200.dp),
+                    contentScale = ContentScale.Crop
+                )
             }
             Column(modifier = Modifier.padding(start = 24.dp, end = 24.dp)) {
                 Spacer(modifier = Modifier.height(20.dp))
-                Text("Bubur Udang Tahu", fontSize = 24.sp, fontWeight = FontWeight.Bold)
+                Text(text = recipes[0].title, fontSize = 24.sp, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(16.dp))
-                CardInfoResep(navController = navController)
-                Spacer(modifier = Modifier.height(16.dp))
+                CardInfoResep(id = id)
+                Spacer(modifier = Modifier.height(20.dp))
                 Text("Bahan-Bahan", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text("- 60 gram nasi\n" +
-                        "- 45 gram udang giling\n" +
-                        "- 30 ml santan cair\n" +
-                        "- 20 gram tahu, potong kecil-kecil\n" +
-                        "- 10 gram tomat, potong kecil-kecil\n" +
-                        "- Kemangi secukupnya\n" +
-                        "- Daun salam secukupnya\n" +
-                        "- Jeruk nipis secukupnya\n" +
-                        "- Garam secukupnya (jika diperlukan)", fontSize = 16.sp, fontWeight = FontWeight.Normal)
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = recipes[0].ingredient,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal
+                )
+                Spacer(modifier = Modifier.height(20.dp))
                 Text("Langkah Penyajian", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text("1. Lumuri udang dengan air jeruk nipis dan garam, lalu diamkan sekitar 15 menit.\n" +
-                        "2. Campur udang, tahu, tomat, kemangi, santan cair, dan bumbu halus hingga merata.\n" +
-                        "3. Bungkus dengan daun pisang, masukkan juga daun salam. Kukus hingga matang. ", fontSize = 16.sp, fontWeight = FontWeight.Normal)
-                Spacer(modifier = Modifier.height(16.dp))
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = recipes[0].step,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Normal
+                )
+                Spacer(modifier = Modifier.height(20.dp))
                 Text("Informasi Nilai Gizi", fontSize = 16.sp, fontWeight = FontWeight.Bold)
-                Spacer(modifier = Modifier.height(16.dp))
-                Text("- Energi 67 kkal\n" +
-                        "- Karbohidrat 6,1 gram\n" +
-                        "- Lemak 3,2 gram\n" +
-                        "- Protein 4,3 gram\n" +
-                        "- Zat besi 1,3 mg\n" +
-                        "- Seng 0,5 mg", fontSize = 16.sp, fontWeight = FontWeight.Normal)
+                Spacer(modifier = Modifier.height(12.dp))
+                Text(
+                    text = recipes[0].nutrient, fontSize = 16.sp, fontWeight = FontWeight.Normal
+                )
+                Spacer(modifier = Modifier.height(20.dp))
             }
         }
 
@@ -110,13 +119,17 @@ fun DetailResepScreen(modifier: Modifier = Modifier, navController: NavControlle
 
 // Card Info Resep
 @Composable
-fun CardInfoResep(modifier: Modifier = Modifier, navController: NavController) {
+fun CardInfoResep(modifier: Modifier = Modifier, id: Int?) {
+    val recipes = DummyData.listResep.filter { recipe ->
+        recipe.id == id
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(60.dp),
+            .height(70.dp),
         elevation = CardDefaults.cardElevation(10.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White)) {
+        colors = CardDefaults.cardColors(containerColor = Color.White)
+    ) {
 
         Row(
             verticalAlignment = Alignment.CenterVertically,
@@ -126,30 +139,51 @@ fun CardInfoResep(modifier: Modifier = Modifier, navController: NavController) {
                 .padding(start = 10.dp, top = 10.dp, end = 10.dp)
 
         ) {
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(text = "Kalori", fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = "220 kkal", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = "${recipes[0].calory} kkal",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
 
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(text = "Durasi", fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = "15 Menit", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = "${recipes[0].duration} Menit",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(text = "Porsi", fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = "4 Porsi", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                Text(
+                    text = "${recipes[0].portion} Porsi",
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
-            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
                 Text(text = "Usia", fontSize = 12.sp)
                 Spacer(modifier = Modifier.height(2.dp))
-                Text(text = "6-9 Bulan", fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
+                Text(text = recipes[0].age, fontSize = 14.sp, fontWeight = FontWeight.SemiBold)
             }
-
-
-
         }
 
     }

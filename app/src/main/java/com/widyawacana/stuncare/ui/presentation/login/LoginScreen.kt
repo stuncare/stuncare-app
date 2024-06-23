@@ -23,6 +23,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -42,6 +44,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -51,6 +55,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.GoogleAuthProvider
 import com.widyawacana.stuncare.R
+import com.widyawacana.stuncare.data.local.datastore.DataStore
 import com.widyawacana.stuncare.ui.navigation.Screen
 import com.widyawacana.stuncare.ui.presentation.login.LoginViewModel
 import com.widyawacana.stuncare.utils.Constant.CLIENT
@@ -64,6 +69,8 @@ fun LoginScreen(
 ) {
     val context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
+    val dataStore = DataStore(context)
+
     val state = viewModel.state.collectAsState(initial = null)
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
@@ -114,6 +121,7 @@ fun LoginScreen(
                             email = ""
                             password = ""
                         }
+                        dataStore.saveStatus(true)
                     }
                 }
             },
@@ -175,6 +183,8 @@ fun LoginContent(
     scrollState: ScrollState = rememberScrollState(),
     navController: NavController
 ) {
+    var passwordVisible by remember { mutableStateOf(false) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -227,6 +237,19 @@ fun LoginContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp),
+            visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+            trailingIcon = {
+                val image = if (passwordVisible)
+                    painterResource(id = R.drawable.iconpasson)
+                else
+                    painterResource(id = R.drawable.iconpasshide)
+
+                IconButton(modifier = Modifier.size(24.dp), onClick = {
+                    passwordVisible = !passwordVisible
+                }) {
+                    Image(painter = image, contentDescription = null)
+                }
+            }
         )
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -251,7 +274,8 @@ fun LoginContent(
             ),
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(56.dp),
+            shape = MaterialTheme.shapes.small
         ) {
             Text(
                 text = "Login",
@@ -261,27 +285,17 @@ fun LoginContent(
             )
         }
         Spacer(modifier = Modifier.height(6.dp))
-//        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
-//            Row {
-//                Divider(color = Color.LightGray, thickness = 1.dp)
-//            }
-//            Row {
-//                Text(text = "atau")
-//            }
-//            Row {
-//                Divider(color = Color.LightGray, thickness = 1.dp)
-//            }
-//        }
 
         Spacer(modifier = Modifier.height(6.dp))
         OutlinedButton(
             onClick = onGoogleClick,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(56.dp)
+                .height(56.dp),
+            shape = MaterialTheme.shapes.small
         ) {
             Image(
-                painter = painterResource(id = R.drawable.googleicon), // Replace with your icon resource
+                painter = painterResource(id = R.drawable.googleicon),
                 contentDescription = "Centered Icon",
                 modifier = Modifier
                     .width(100.dp)

@@ -71,7 +71,6 @@ fun SplashScreen(navController: NavController) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center,
-            modifier = Modifier.background(color = Color(0xFFFFFFFF))
         ) {
             val image = if (isDarkMode) {
                 R.drawable.logo_stuncare_purple
